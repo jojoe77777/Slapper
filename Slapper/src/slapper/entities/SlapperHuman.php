@@ -5,6 +5,7 @@ use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\PlayerListPacket;
@@ -35,6 +36,10 @@ class SlapperHuman extends Human {
                 $this->setNameTagAlwaysVisible(true);
                 break;
         }
+        if(!isset($this->namedtag->Scale)){
+            $this->namedtag->Scale = new FloatTag("Scale", 1.0);
+        }
+        $this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
     }
 
     public function saveNBT(){
@@ -46,7 +51,9 @@ class SlapperHuman extends Human {
                 $visibility = 2;
             }
         }
+        $scale = $this->getDataProperty(Entity::DATA_SCALE);
         $this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
+        $this->namedtag->Scale = new FloatTag("Scale", $scale);
     }
 
     public function spawnTo(Player $player) {
