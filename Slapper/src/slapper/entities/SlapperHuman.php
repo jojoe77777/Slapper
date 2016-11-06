@@ -77,16 +77,9 @@ class SlapperHuman extends Human {
             $pk->metadata[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($player)];
             $player->dataPacket($pk);
             $this->inventory->sendArmorContents($player);
-
-            $add = new PlayerListPacket();
-            $add->type = 0;
-            $add->entries[] = [$uuid, $entityId, isset($this->namedtag->MenuName) ? $this->namedtag["MenuName"] : "", $this->skinId, $this->skin];
-            $player->dataPacket($add);
+            $player->server->updatePlayerListData($uuid, $entityId, $this->namedtag["MenuName"] ?? "", $this->skinId, $this->skin, [$player]);
             if ($this->namedtag["MenuName"] === "") {
-                $remove = new PlayerListPacket();
-                $remove->type = 1;
-                $remove->entries[] = [$uuid];
-                $player->dataPacket($remove);
+                $player->server->removePlayerListData($uuid, [$player]);
             }
         }
     }
