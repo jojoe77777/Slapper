@@ -3,12 +3,51 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
+use pocketmine\level\format\FullChunk;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
+
+    public function __construct(FullChunk $chunk, CompoundTag $nbt){
+        parent::__construct($chunk, $nbt);
+        if(!isset($this->namedtag->NameVisibility)){
+            $this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
+        }
+        switch($this->namedtag->NameVisibility->getValue()){
+            case 0:
+                $this->setNameTagVisible(false);
+                $this->setNameTagAlwaysVisible(false);
+                break;
+            case 1:
+                $this->setNameTagVisible(true);
+                $this->setNameTagAlwaysVisible(false);
+                break;
+            case 2:
+                $this->setNameTagVisible(true);
+                $this->setNameTagAlwaysVisible(true);
+                break;
+            default:
+                $this->setNameTagVisible(true);
+                $this->setNameTagAlwaysVisible(true);
+                break;
+        }
+    }
+
+    public function saveNBT(){
+        parent::saveNBT();
+        $visibility = 0;
+        if($this->isNameTagVisible()){
+            $visibility = 1;
+            if($this->isNameTagAlwaysVisible()){
+                $visibility = 2;
+            }
+        }
+        $this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
+    }
 
     public function spawnTo(Player $player) {
         if (!isset($this->hasSpawned[$player->getLoaderId()])) {
@@ -27,16 +66,9 @@ class SlapperHuman extends Human {
             $pk->yaw = $this->yaw;
             $pk->pitch = $this->pitch;
             $pk->item = $this->getInventory()->getItemInHand();
-            /* TODO: Fix bugs and remove this */
-            $this->setNameTagVisible(true);
-            $this->setNameTagAlwaysVisible(true);
-            $pk->metadata = [
-                self::DATA_FLAGS => [self::DATA_TYPE_LONG, ((1 << self::DATA_FLAG_NO_AI) | ($this->isNameTagVisible() ? (1 << self::DATA_FLAG_CAN_SHOW_NAMETAG) : 0))],
-                self::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->getDisplayName($player)],
-                self::DATA_LEAD_HOLDER_EID => [self::DATA_TYPE_LONG, -1]
-            ];
+            $pk->metadata = $this->dataProperties;
+            $pk->metadata[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($player)];
             $player->dataPacket($pk);
-
             $this->inventory->sendArmorContents($player);
 
             $add = new PlayerListPacket();
