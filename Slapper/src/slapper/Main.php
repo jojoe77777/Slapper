@@ -125,10 +125,12 @@ class Main extends PluginBase implements Listener {
         "boots: /slapper edit <eid> boots <id>",
         "skin: /slapper edit <eid> skin",
         "name: /slapper edit <eid> name <name>",
+        "namevisibility: /slapper edit <eid> namevisibility <never/hover/always>",
         "addcommand: /slapper edit <eid> addcommand <command>",
         "delcommand: /slapper edit <eid> delcommand <command>",
         "listcommands: /slapper edit <eid> listcommands",
-        "block: /slapper edit <eid> block <id>",
+        "blockid: /slapper edit <eid> block <id[:meta]>",
+        "scale: /slapper edit <eid> scale <size>",
         "tphere: /slapper edit <eid> tphere",
         "tpto: /slapper edit <eid> tpto",
         "menuname: /slapper edit <eid> menuname <name/remove>"
