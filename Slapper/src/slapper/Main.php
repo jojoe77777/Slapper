@@ -68,6 +68,7 @@ use slapper\entities\SlapperHusk;
 use slapper\entities\SlapperWitherSkeleton;
 use slapper\entities\SlapperRabbit;
 use slapper\events\SlapperCreationEvent;
+use slapper\events\SlapperDeletionEvent;
 use slapper\events\SlapperHitEvent;
 
 
@@ -100,7 +101,6 @@ class Main extends PluginBase implements Listener {
 
     public $hitSessions = [];
     public $idSessions = [];
-    public $updateSessions = [];
     public $prefix = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] ");
     public $noperm = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] You don't have permission.");
     public $helpHeader =
@@ -235,7 +235,6 @@ class Main extends PluginBase implements Listener {
                         case "stopid":
                             unset($this->hitSessions[$sender->getName()]);
                             unset($this->idSessions[$sender->getName()]);
-                            unset($this->updateSessions[$sender->getName()]);
                             $sender->sendMessage($this->prefix . "Cancelled.");
                             return true;
                             break;
@@ -243,12 +242,10 @@ class Main extends PluginBase implements Listener {
                             if ($sender->hasPermission("slapper.remove") || $sender->hasPermission("slapper")) {
                                 if (isset($args[0])) {
                                     $entity = $sender->getLevel()->getEntity($args[0]);
-                                    if (!($entity == null)) {
+                                    if ($entity !== null) {
                                         if ($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
-                                            if ($entity instanceof SlapperHuman){
-                                               $entity->getInventory()->clearAll(); 
-                                            }
-                                            $entity->kill();
+                                            $this->getServer()->getPluginManager()->callEvent(new SlapperDeletionEvent($entity));
+                                            $entity->close();
                                             $sender->sendMessage($this->prefix . "Entity removed.");
                                         } else {
                                             $sender->sendMessage($this->prefix . "That entity is not handled by Slapper.");
@@ -406,13 +403,11 @@ class Main extends PluginBase implements Listener {
                                                         }
                                                         return true;
                                                         break;
-                                                    /*
+                                                    case "namevisibility":
                                                     case "namevisible":
                                                     case "customnamevisible":
                                                     case "tagvisible":
                                                     case "name_visible":
-                                                    case "custom_name_visible":
-                                                    case "tag_visible":
                                                         if (isset($args[2])) {
                                                             switch(strtolower($args[2])){
                                                                 case "a":
@@ -453,7 +448,6 @@ class Main extends PluginBase implements Listener {
                                                             $sender->sendMessage($this->prefix . "Please enter a value, \"always\", \"hover\", or \"never\".");
                                                         }
                                                         return true;
-                                                    */
                                                     case "addc":
                                                     case "addcmd":
                                                     case "addcommand":
@@ -502,12 +496,17 @@ class Main extends PluginBase implements Listener {
                                                     case "tile":
                                                     case "blockid":
                                                     case "tileid":
-                                                        if ($entity instanceof SlapperFallingSand) {
-                                                            $entity->setDataProperty(Entity::DATA_VARIANT, Entity::DATA_TYPE_INT, intval($args[2]));
-                                                            $entity->sendData($entity->getViewers());
-                                                            $sender->sendMessage($this->prefix . "Block updated.");
+                                                        if(isset($args[2])) {
+                                                            if ($entity instanceof SlapperFallingSand) {
+                                                                $data = explode(":", $args[2]);
+                                                                $entity->setDataProperty(Entity::DATA_VARIANT, Entity::DATA_TYPE_INT, intval($data[0] ?? 1) | (intval($data[1] ?? 0) << 8));
+                                                                $entity->sendData($entity->getViewers());
+                                                                $sender->sendMessage($this->prefix . "Block updated.");
+                                                            } else {
+                                                                $sender->sendMessage($this->prefix . "That entity is not a block.");
+                                                            }
                                                         } else {
-                                                            $sender->sendMessage($this->prefix . "That entity is not a block.");
+                                                            $sender->sendMessage($this->prefix . "Please enter a value.");
                                                         }
                                                         return true;
                                                         break;
@@ -529,6 +528,18 @@ class Main extends PluginBase implements Listener {
                                                         $sender->sendMessage($this->prefix . "Teleported you to entity.");
                                                         return true;
                                                         break;
+                                                    case "scale":
+                                                    case "size":
+                                                        if(isset($args[2])){
+                                                            $scale = floatval($args[2]);
+                                                            $entity->setDataProperty(Entity::DATA_SCALE, Entity::DATA_TYPE_FLOAT, $scale);
+                                                            $entity->sendData($entity->getViewers());
+                                                            $sender->sendMessage($this->prefix . "Updated scale.");
+                                                        } else {
+                                                            $sender->sendMessage($this->prefix . "Please enter a value.");
+                                                        }
+                                                        return true;
+                                                        break;
                                                     default:
                                                         $sender->sendMessage($this->prefix . "Unknown command.");
                                                         return true;
@@ -536,7 +547,7 @@ class Main extends PluginBase implements Listener {
                                             } else {
                                                 $sender->sendMessage($this->helpHeader);
                                                 foreach ($this->editArgs as $msgArg) {
-                                                    $sender->sendMessage(str_ireplace("<eid>", $args[0], (TextFormat::GREEN . " - " . $msgArg . "\n")));
+                                                    $sender->sendMessage(str_replace("<eid>", $args[0], (TextFormat::GREEN . " - " . $msgArg . "\n")));
                                                 }
                                                 return true;
                                             }
