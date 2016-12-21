@@ -1,7 +1,6 @@
 <?php
 namespace slapper\entities\other;
 
-use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\generic\GenericChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
