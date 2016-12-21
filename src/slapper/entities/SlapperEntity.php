@@ -2,7 +2,6 @@
 namespace slapper\entities;
 
 use pocketmine\entity\Entity;
-use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\generic\GenericChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;

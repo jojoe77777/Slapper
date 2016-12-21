@@ -3,13 +3,11 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
-use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\generic\GenericChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\protocol\AddPlayerPacket;
-use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
