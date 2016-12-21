@@ -2,6 +2,7 @@
 namespace slapper\entities\other;
 
 use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\generic\GenericChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use slapper\entities\SlapperEntity;
@@ -11,7 +12,7 @@ class SlapperFallingSand extends SlapperEntity {
     public $entityId = 66;
     public $offset = 0.5;
 
-    public function __construct(FullChunk $chunk, CompoundTag $nbt){
+    public function __construct(GenericChunk $chunk, CompoundTag $nbt){
         parent::__construct($chunk, $nbt);
         if(!isset($this->namedtag->BlockID)){
             $this->namedtag->BlockID = new IntTag("BlockID", 1);
