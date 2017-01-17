@@ -3,7 +3,7 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
-use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\Chunk as FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
