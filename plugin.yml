@@ -3,7 +3,7 @@ author: jojoe77777
 version: 1.3.3
 description: Slapper, the NPC plugin for PocketMine/Genisys
 main: slapper\Main
-api: [3.0.0-ALPHA2]
+api: [3.0.0-ALPHA2, 3.0.0-ALPHA3]
 website: https://github.com/jojoe77777/Slapper
 
 commands:
