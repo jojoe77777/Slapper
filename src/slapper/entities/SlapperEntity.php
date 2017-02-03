@@ -2,7 +2,7 @@
 namespace slapper\entities;
 
 use pocketmine\entity\Entity;
-use pocketmine\level\format\FullChunk;
+use pocketmine\level\format\Chunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
@@ -25,7 +25,7 @@ class SlapperEntity extends Entity {
         48 => 2.1, 65 => 1.0, 66 => 0.5, 84 => 0.5, 90 => 0.5
     ];
 
-    public function __construct(FullChunk $chunk, CompoundTag $nbt){
+    public function __construct(Chunk $chunk, CompoundTag $nbt){
         parent::__construct($chunk, $nbt);
         if(!isset($this->namedtag->NameVisibility)){
             $this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
