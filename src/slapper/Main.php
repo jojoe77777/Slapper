@@ -39,7 +39,7 @@ use slapper\entities\SlapperCreeper;
 use slapper\entities\SlapperEnderman;
 use slapper\entities\SlapperEnderCrystal;
 use slapper\entities\SlapperEnderDragon;
-use slapper\entities\SlapperEtity;
+use slapper\entities\SlapperEntity;
 use slapper\entities\SlapperGhast;
 use slapper\entities\SlapperGuardian;
 use slapper\entities\SlapperHuman;
