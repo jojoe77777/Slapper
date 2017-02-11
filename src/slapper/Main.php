@@ -177,8 +177,7 @@ class Main extends PluginBase implements Listener {
         Entity::registerEntity(SlapperStray::class, true);
         Entity::registerEntity(SlapperHusk::class, true);
         Entity::registerEntity(SlapperWitherSkeleton::class, true);
-        
-Entity::registerEntity(SlapperWither::class, true);
+        Entity::registerEntity(SlapperWither::class, true);
         Entity::registerEntity(SlapperFallingSand::class, true);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
