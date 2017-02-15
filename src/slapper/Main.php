@@ -120,7 +120,7 @@ class Main extends PluginBase implements Listener {
     ];
     public $editArgs = [
         "helmet: /slapper edit <eid> helmet <id>",
-        "chestplate: /slapper edit <eid> <id>",
+        "chestplate: /slapper edit <eid> chestplate <id>",
         "leggings: /slapper edit <eid> leggings <id>",
         "boots: /slapper edit <eid> boots <id>",
         "skin: /slapper edit <eid> skin",
