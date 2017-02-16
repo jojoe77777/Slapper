@@ -12,7 +12,7 @@ commands:
     usage: "/slapper [args]..."
     permission: slapper.command
   rca:
-    description: Execute a command as someone else!
+    description: Run a regular or OP level command as another player. 
     usage: "/rca <player> <command>"
     permission: slapper.rca
   nothing:
