@@ -616,7 +616,7 @@ class Main extends PluginBase implements Listener {
                             }
                             $nbt = $this->makeNBT($chosenType, $sender);
                             /** @var SlapperEntity $entity */
-                            $entity = Entity::createEntity("Slapper" . $chosenType, $sender->getLevel()->getChunk($sender->getX() >> 4, $sender->getZ() >> 4), $nbt);
+                            $entity = Entity::createEntity("Slapper" . $chosenType, $sender->getLevel(), $nbt);
                             $entity->setNameTag($name);
                             $entity->setNameTagVisible(true);
                             $entity->setNameTagAlwaysVisible(true);
