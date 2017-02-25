@@ -3,7 +3,7 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
-use pocketmine\level\format\Chunk;
+use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
@@ -12,8 +12,8 @@ use pocketmine\Player;
 
 class SlapperHuman extends Human {
 
-    public function __construct(Chunk $chunk, CompoundTag $nbt){
-        parent::__construct($chunk, $nbt);
+    public function __construct(Level $level, CompoundTag $nbt){
+        parent::__construct($level, $nbt);
         if(!isset($this->namedtag->NameVisibility)){
             $this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
         }
