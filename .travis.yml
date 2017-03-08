@@ -1,0 +1,15 @@
+language: php
+
+php:
+ - 7.0
+
+before_script:
+ - pecl install channel://pecl.php.net/pthreads-3.1.6
+ - pecl install channel://pecl.php.net/weakref-0.3.3
+ - echo | pecl install channel://pecl.php.net/yaml-2.0.0
+
+script:
+ - ./tests/travis.sh
+
+notifications:
+ email: false
