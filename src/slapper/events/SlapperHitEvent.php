@@ -7,7 +7,7 @@ use pocketmine\event\Cancellable;
 use pocketmine\event\entity\EntityEvent;
 use pocketmine\Player;
 
-class SlapperHitEvent extends EntityEvent {
+class SlapperHitEvent extends EntityEvent implements Cancellable {
 
     public static $handlerList = null;
 
@@ -18,5 +18,11 @@ class SlapperHitEvent extends EntityEvent {
         $this->entity = $entity;
         $this->damager = $damager;
     }
-
+	
+	/**
+	 * @return Player
+	 */
+    public function getDamager(): Player {
+    	return $this->damager;
+    }
 }
