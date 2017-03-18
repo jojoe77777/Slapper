@@ -1,7 +1,7 @@
 # Slapper
 The new home of Slapper, the NPC plugin for PocketMine/Genisys.
 
-Elywing is not supported. We recommend you to use [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) for maximum compatibility
+We do not support Elywing or Tesseract. We recommend you use [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) for maximum compatibility
 
 ## Addons
 
