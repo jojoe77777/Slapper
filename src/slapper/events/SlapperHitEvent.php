@@ -19,10 +19,10 @@ class SlapperHitEvent extends EntityEvent implements Cancellable {
         $this->damager = $damager;
     }
 	
-	/**
-	 * @return Player
-	 */
-    public function getDamager(): Player {
+    /**
+    * @return Player
+    */
+    public function getDamager() : Player {
     	return $this->damager;
     }
 }
