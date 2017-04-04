@@ -655,9 +655,10 @@ class Main extends PluginBase implements Listener {
         $nbt->Health = new ShortTag("Health", 1);
         $nbt->Commands = new CompoundTag("Commands", []);
         $nbt->MenuName = new StringTag("MenuName", "");
-        $nbt->SlapperVersion = new StringTag("SlapperVersion", "1.3.2");
+        $nbt->SlapperVersion = new StringTag("SlapperVersion", "1.3.4");
         if($type === "Human"){
-            $nbt->Inventory = new ListTag("Inventory", $player->getInventory());
+        	$player->saveNBT();
+            $nbt->Inventory = clone $player->namedtag->Inventory;
             $nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkinData()), "Name" => new StringTag("Name", $player->getSkinId())]);
         }
         return $nbt;
