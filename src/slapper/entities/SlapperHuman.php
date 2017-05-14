@@ -7,7 +7,7 @@ use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
-use pocketmine\network\protocol\AddPlayerPacket;
+use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
