@@ -37,8 +37,11 @@ use slapper\entities\SlapperChicken;
 use slapper\entities\SlapperCow;
 use slapper\entities\SlapperCreeper;
 use slapper\entities\SlapperEnderman;
+use slapper\entities\SlapperEnderCrystal;
+use slapper\entities\SlapperEnderDragon;
 use slapper\entities\SlapperEntity;
 use slapper\entities\SlapperGhast;
+use slapper\entities\SlapperGuardian;
 use slapper\entities\SlapperHuman;
 use slapper\entities\SlapperIronGolem;
 use slapper\entities\SlapperLavaSlime;
@@ -47,6 +50,7 @@ use slapper\entities\SlapperOcelot;
 use slapper\entities\SlapperPig;
 use slapper\entities\SlapperPigZombie;
 use slapper\entities\SlapperSheep;
+use slapper\entities\SlapperShulker;
 use slapper\entities\SlapperSilverfish;
 use slapper\entities\SlapperSkeleton;
 use slapper\entities\SlapperSlime;
@@ -55,6 +59,7 @@ use slapper\entities\SlapperSpider;
 use slapper\entities\SlapperSquid;
 use slapper\entities\SlapperVillager;
 use slapper\entities\SlapperWolf;
+use slapper\entities\SlapperWither;
 use slapper\entities\SlapperZombie;
 use slapper\entities\SlapperZombieVillager;
 use slapper\entities\SlapperHorse;
@@ -85,7 +90,8 @@ class Main extends PluginBase implements Listener {
         "Horse", "Donkey", "Mule", "SkeletonHorse",
         "ZombieHorse", "Witch", "Rabbit", "Stray",
         "Husk", "WitherSkeleton", "IronGolem", "Snowman",
-        "MagmaCube", "Squid"
+        "MagmaCube", "Squid", "Wither", "Guardian", "EnderCrystal",
+        "Shulker", "EnderDragon"
     ];
 
     const ENTITY_ALIASES = [
@@ -97,6 +103,9 @@ class Main extends PluginBase implements Listener {
         "FallingBlock" => "FallingSand",
         "FakeBlock" => "FallingSand",
         "VillagerGolem" => "IronGolem",
+        "EnderCrystal" => "Crystal",
+        "PrimedTNT" => "TNT",
+        "EnderDragon" => "Dragon",
     ];
 
     public $hitSessions = [];
@@ -176,6 +185,11 @@ class Main extends PluginBase implements Listener {
         Entity::registerEntity(SlapperStray::class, true);
         Entity::registerEntity(SlapperHusk::class, true);
         Entity::registerEntity(SlapperWitherSkeleton::class, true);
+        Entity::registerEntity(SlapperWither::class, true);
+        Entity::registerEntity(SlapperShulker::class, true);
+        Entity::registerEntity(SlapperEnderCrystal::class, true);
+        Entity::registerEntity(SlapperGuardian::class, true);
+        Entity::registerEntity(SlapperEnderDragon::class, true);
         Entity::registerEntity(SlapperFallingSand::class, true);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
