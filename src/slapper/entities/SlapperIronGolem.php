@@ -3,6 +3,6 @@ namespace slapper\entities;
 
 class SlapperIronGolem extends SlapperEntity {
 
-    public $entityId = 20;
+	public $entityId = 20;
 
 }

@@ -6,7 +6,7 @@ use slapper\entities\SlapperEntity;
 
 class SlapperMinecart extends SlapperEntity {
 
-    public $entityId = 84;
-    public $offset = 0.3;
+	public $entityId = 84;
+	public $offset = 0.3;
 
 }

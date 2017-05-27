@@ -3,6 +3,6 @@ namespace slapper\entities;
 
 class SlapperMule extends SlapperEntity {
 
-    public $entityId = 25;
+	public $entityId = 25;
 
 }
