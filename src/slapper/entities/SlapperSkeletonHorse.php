@@ -3,6 +3,6 @@ namespace slapper\entities;
 
 class SlapperSkeletonHorse extends SlapperEntity {
 
-    public $entityId = 26;
+	public $entityId = 26;
 
 }

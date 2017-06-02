@@ -3,6 +3,6 @@ namespace slapper\entities;
 
 class SlapperStray extends SlapperEntity {
 
-    public $entityId = 46;
+	public $entityId = 46;
 
 }

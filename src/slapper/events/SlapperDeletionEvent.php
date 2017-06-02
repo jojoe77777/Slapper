@@ -7,10 +7,10 @@ use pocketmine\event\entity\EntityEvent;
 
 class SlapperDeletionEvent extends EntityEvent {
 
-    public static $handlerList = null;
+	public static $handlerList = null;
 
-    public function __construct(Entity $entity){
-        $this->entity = $entity;
-    }
+	public function __construct(Entity $entity) {
+		$this->entity = $entity;
+	}
 
 }
