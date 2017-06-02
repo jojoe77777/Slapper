@@ -658,7 +658,6 @@ class Main extends PluginBase implements Listener {
 		return $nbt;
 	}
 
-
 	/**
 	 * @param EntityDamageEvent $event
 	 * @ignoreCancelled true
