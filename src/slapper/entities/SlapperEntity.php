@@ -77,6 +77,7 @@ class SlapperEntity extends Entity {
 		$pk->x = $this->x;
 		$pk->y = $this->y + $this->offset;
 		$pk->z = $this->z;
+		$pk->motionX = $pk->motionY = $pk->motionZ = 0;
 		$pk->yaw = $this->yaw;
 		$pk->pitch = $this->pitch;
 		$pk->metadata = $this->dataProperties;
