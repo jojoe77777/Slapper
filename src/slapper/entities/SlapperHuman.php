@@ -69,7 +69,7 @@ class SlapperHuman extends Human {
 			$pk->x = $this->x;
 			$pk->y = $this->y;
 			$pk->z = $this->z;
-			$pk->motionX = $pk->motionY = $pk->motionZ = 0;
+			$pk->speedX = $pk->speedY = $pk->speedZ = 0.0;
 			$pk->yaw = $this->yaw;
 			$pk->pitch = $this->pitch;
 			$pk->item = $this->getInventory()->getItemInHand();
