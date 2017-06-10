@@ -73,11 +73,12 @@ class SlapperEntity extends Entity {
 	public function spawnTo(Player $player) {
 		$pk = new AddEntityPacket();
 		$pk->entityRuntimeId = $this->getId();
+		$pk->eid = $this->getId(); // TODO: remove when ALPHA6 is merged into master
 		$pk->type = $this->entityId;
 		$pk->x = $this->x;
 		$pk->y = $this->y + $this->offset;
 		$pk->z = $this->z;
-		$pk->motionX = $pk->motionY = $pk->motionZ = 0;
+		$pk->speedX = $pk->speedY = $pk->speedZ = 0.0;
 		$pk->yaw = $this->yaw;
 		$pk->pitch = $this->pitch;
 		$pk->metadata = $this->dataProperties;
