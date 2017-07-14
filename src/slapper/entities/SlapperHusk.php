@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperHusk extends SlapperEntity {
 
-	public $entityId = 47;
+	const TYPE_ID = 47;
+	const HEIGHT = 1.95;
 
 }

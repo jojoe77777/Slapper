@@ -6,7 +6,7 @@ use slapper\entities\SlapperEntity;
 
 class SlapperBoat extends SlapperEntity {
 
-	public $entityId = 90;
-	public $offset = 0.2;
+	const TYPE_ID = 90;
+	const HEIGHT = 0.6;
 
 }

@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperIronGolem extends SlapperEntity {
 
-	public $entityId = 20;
+	const TYPE_ID = 20;
+	const HEIGHT = 2.7;
 
 }
