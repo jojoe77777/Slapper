@@ -174,7 +174,7 @@ class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
-	public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
+	public function onCommand(CommandSender $sender, Command $command, $label, array $args):bool {
 		switch (strtolower($command->getName())) {
 			case 'nothing':
 				return true;
