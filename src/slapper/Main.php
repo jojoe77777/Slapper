@@ -93,16 +93,22 @@ class Main extends PluginBase implements Listener {
 		"VillagerGolem" => "IronGolem",
 	];
 
+	/** @var array */
 	public $hitSessions = [];
+	/** @var array */
 	public $idSessions = [];
+	/** @vae string */
 	public $prefix = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] ");
+	/** @var string */
 	public $noperm = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] You don't have permission.");
+	/** @var string */
 	public $helpHeader =
 		(
 			TextFormat::YELLOW . "---------- " .
 			TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper Help" . TextFormat::GREEN . "] " .
 			TextFormat::YELLOW . "----------"
 		);
+	/** @var string[] */
 	public $mainArgs = [
 		"help: /slapper help",
 		"spawn: /slapper spawn <type> [name]",
@@ -112,6 +118,7 @@ class Main extends PluginBase implements Listener {
 		"version: /slapper version",
 		"cancel: /slapper cancel",
 	];
+	/** @var string[] */
 	public $editArgs = [
 		"helmet: /slapper edit <eid> helmet <id>",
 		"chestplate: /slapper edit <eid> chestplate <id>",
@@ -130,6 +137,9 @@ class Main extends PluginBase implements Listener {
 		"menuname: /slapper edit <eid> menuname <name/remove>"
 	];
 
+	/**
+	 * @return void
+	 */
 	public function onEnable() {
 		Entity::registerEntity(SlapperCreeper::class, true);
 		Entity::registerEntity(SlapperBat::class, true);
@@ -174,6 +184,14 @@ class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
+	/**
+	 * @param CommandSender $sender
+	 * @param Command $command
+	 * @param string $label
+	 * @param string[] $args
+	 *
+	 * @return bool
+	 */
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
 		switch (strtolower($command->getName())) {
 			case 'nothing':
@@ -630,6 +648,12 @@ class Main extends PluginBase implements Listener {
 		return true;
 	}
 
+	/**
+	 * @param string $type
+	 * @param Player $player
+	 *
+	 * @return CompoundTag
+	 */
 	private function makeNBT($type, Player $player) {
 		$nbt = new CompoundTag;
 		$nbt->Pos = new ListTag("Pos", [
@@ -661,6 +685,8 @@ class Main extends PluginBase implements Listener {
 	/**
 	 * @param EntityDamageEvent $event
 	 * @ignoreCancelled true
+	 *
+	 * @return void
 	 */
 	public function onEntityDamage(EntityDamageEvent $event) {
 		$entity = $event->getEntity();
@@ -701,6 +727,11 @@ class Main extends PluginBase implements Listener {
 		}
 	}
 
+	/**
+	 * @param EntitySpawnEvent $ev
+	 *
+	 * @return void
+	 */
 	public function onEntitySpawn(EntitySpawnEvent $ev) {
 		$entity = $ev->getEntity();
 		if($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
