@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperOcelot extends SlapperEntity {
 
-	public $entityId = 22;
+	const TYPE_ID = 22;
+	const HEIGHT = 0.7;
 
 }

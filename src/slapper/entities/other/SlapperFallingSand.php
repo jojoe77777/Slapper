@@ -8,8 +8,8 @@ use slapper\entities\SlapperEntity;
 
 class SlapperFallingSand extends SlapperEntity {
 
-	public $entityId = 66;
-	public $offset = 0.5;
+	const TYPE_ID = 66;
+	const HEIGHT = 0.98;
 
 	public function __construct(Level $level, CompoundTag $nbt) {
 		parent::__construct($level, $nbt);

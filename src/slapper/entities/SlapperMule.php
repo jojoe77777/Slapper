@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperMule extends SlapperEntity {
 
-	public $entityId = 25;
+	const TYPE_ID = 25;
+	const HEIGHT = 1.6;
 
 }

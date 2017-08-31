@@ -31,21 +31,28 @@ use slapper\entities\SlapperChicken;
 use slapper\entities\SlapperCow;
 use slapper\entities\SlapperCreeper;
 use slapper\entities\SlapperDonkey;
+use slapper\entities\SlapperElderGuardian;
 use slapper\entities\SlapperEnderman;
+use slapper\entities\SlapperEndermite;
 use slapper\entities\SlapperEntity;
+use slapper\entities\SlapperEvoker;
 use slapper\entities\SlapperGhast;
+use slapper\entities\SlapperGuardian;
 use slapper\entities\SlapperHorse;
 use slapper\entities\SlapperHuman;
 use slapper\entities\SlapperHusk;
 use slapper\entities\SlapperIronGolem;
 use slapper\entities\SlapperLavaSlime;
+use slapper\entities\SlapperLlama;
 use slapper\entities\SlapperMule;
 use slapper\entities\SlapperMushroomCow;
 use slapper\entities\SlapperOcelot;
 use slapper\entities\SlapperPig;
 use slapper\entities\SlapperPigZombie;
+use slapper\entities\SlapperPolarBear;
 use slapper\entities\SlapperRabbit;
 use slapper\entities\SlapperSheep;
+use slapper\entities\SlapperShulker;
 use slapper\entities\SlapperSilverfish;
 use slapper\entities\SlapperSkeleton;
 use slapper\entities\SlapperSkeletonHorse;
@@ -54,8 +61,11 @@ use slapper\entities\SlapperSnowman;
 use slapper\entities\SlapperSpider;
 use slapper\entities\SlapperSquid;
 use slapper\entities\SlapperStray;
+use slapper\entities\SlapperVex;
 use slapper\entities\SlapperVillager;
+use slapper\entities\SlapperVindicator;
 use slapper\entities\SlapperWitch;
+use slapper\entities\SlapperWither;
 use slapper\entities\SlapperWitherSkeleton;
 use slapper\entities\SlapperWolf;
 use slapper\entities\SlapperZombie;
@@ -79,7 +89,9 @@ class Main extends PluginBase implements Listener {
 		"Horse", "Donkey", "Mule", "SkeletonHorse",
 		"ZombieHorse", "Witch", "Rabbit", "Stray",
 		"Husk", "WitherSkeleton", "IronGolem", "Snowman",
-		"MagmaCube", "Squid"
+		"MagmaCube", "Squid", "ElderGuardian", "Endermite",
+		"Evoker", "Guardian", "PolarBear", "Shulker",
+		"Vex", "Vindicator", "Wither", "Llama"
 	];
 
 	const ENTITY_ALIASES = [
@@ -91,6 +103,8 @@ class Main extends PluginBase implements Listener {
 		"FallingBlock" => "FallingSand",
 		"FakeBlock" => "FallingSand",
 		"VillagerGolem" => "IronGolem",
+		"EGuardian" => "ElderGuardian",
+		"Emite" => "Endermite"
 	];
 
 	/** @var array */
@@ -141,46 +155,28 @@ class Main extends PluginBase implements Listener {
 	 * @return void
 	 */
 	public function onEnable() {
-		Entity::registerEntity(SlapperCreeper::class, true);
-		Entity::registerEntity(SlapperBat::class, true);
-		Entity::registerEntity(SlapperSheep::class, true);
-		Entity::registerEntity(SlapperPigZombie::class, true);
-		Entity::registerEntity(SlapperGhast::class, true);
-		Entity::registerEntity(SlapperBlaze::class, true);
-		Entity::registerEntity(SlapperIronGolem::class, true);
-		Entity::registerEntity(SlapperSnowman::class, true);
-		Entity::registerEntity(SlapperOcelot::class, true);
-		Entity::registerEntity(SlapperZombieVillager::class, true);
-		Entity::registerEntity(SlapperHuman::class, true);
-		Entity::registerEntity(SlapperVillager::class, true);
-		Entity::registerEntity(SlapperZombie::class, true);
-		Entity::registerEntity(SlapperSquid::class, true);
-		Entity::registerEntity(SlapperCow::class, true);
-		Entity::registerEntity(SlapperSpider::class, true);
-		Entity::registerEntity(SlapperPig::class, true);
-		Entity::registerEntity(SlapperMushroomCow::class, true);
-		Entity::registerEntity(SlapperWolf::class, true);
-		Entity::registerEntity(SlapperLavaSlime::class, true);
-		Entity::registerEntity(SlapperSilverfish::class, true);
-		Entity::registerEntity(SlapperSkeleton::class, true);
-		Entity::registerEntity(SlapperSlime::class, true);
-		Entity::registerEntity(SlapperChicken::class, true);
-		Entity::registerEntity(SlapperEnderman::class, true);
-		Entity::registerEntity(SlapperCaveSpider::class, true);
-		Entity::registerEntity(SlapperBoat::class, true);
-		Entity::registerEntity(SlapperMinecart::class, true);
-		Entity::registerEntity(SlapperPrimedTNT::class, true);
-		Entity::registerEntity(SlapperHorse::class, true);
-		Entity::registerEntity(SlapperDonkey::class, true);
-		Entity::registerEntity(SlapperMule::class, true);
-		Entity::registerEntity(SlapperSkeletonHorse::class, true);
-		Entity::registerEntity(SlapperZombieHorse::class, true);
-		Entity::registerEntity(SlapperRabbit::class, true);
-		Entity::registerEntity(SlapperWitch::class, true);
-		Entity::registerEntity(SlapperStray::class, true);
-		Entity::registerEntity(SlapperHusk::class, true);
-		Entity::registerEntity(SlapperWitherSkeleton::class, true);
-		Entity::registerEntity(SlapperFallingSand::class, true);
+		foreach ([
+			         SlapperCreeper::class, SlapperBat::class, SlapperSheep::class,
+			         SlapperPigZombie::class, SlapperGhast::class, SlapperBlaze::class,
+			         SlapperIronGolem::class, SlapperSnowman::class, SlapperOcelot::class,
+			         SlapperZombieVillager::class, SlapperHuman::class, SlapperCow::class,
+			         SlapperZombie::class, SlapperSquid::class, SlapperVillager::class,
+			         SlapperSpider::class, SlapperPig::class, SlapperMushroomCow::class,
+			         SlapperWolf::class, SlapperLavaSlime::class, SlapperSilverfish::class,
+			         SlapperSkeleton::class, SlapperSlime::class, SlapperChicken::class,
+			         SlapperEnderman::class, SlapperCaveSpider::class, SlapperBoat::class,
+			         SlapperMinecart::class, SlapperMule::class, SlapperWitch::class,
+			         SlapperPrimedTNT::class, SlapperHorse::class, SlapperDonkey::class,
+			         SlapperSkeletonHorse::class, SlapperZombieHorse::class, SlapperRabbit::class,
+			         SlapperStray::class, SlapperHusk::class, SlapperWitherSkeleton::class,
+			         SlapperFallingSand::class, SlapperElderGuardian::class, SlapperEndermite::class,
+			         SlapperEvoker::class, SlapperGuardian::class, SlapperLlama::class,
+			         SlapperPolarBear::class, SlapperShulker::class, SlapperVex::class,
+			         SlapperVindicator::class, SlapperWither::class
+
+		         ] as $className) {
+			Entity::registerEntity($className, true);
+		}
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
@@ -192,12 +188,12 @@ class Main extends PluginBase implements Listener {
 	 *
 	 * @return bool
 	 */
-	public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
+	public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool {
 		switch (strtolower($command->getName())) {
-			case 'nothing':
+			case "nothing":
 				return true;
 				break;
-			case 'rca':
+			case "rca":
 				if(count($args) < 2) {
 					$sender->sendMessage($this->prefix . "Please enter a player and a command.");
 					return true;
@@ -513,7 +509,7 @@ class Main extends PluginBase implements Listener {
 														if(isset($args[2])) {
 															if($entity instanceof SlapperFallingSand) {
 																$data = explode(":", $args[2]);
-																$entity->setDataProperty(Entity::DATA_VARIANT, Entity::DATA_TYPE_INT, intval($data[0] ?? 1) | (intval($data[1] ?? 0) << 8));
+																$entity->setDataProperty(Entity::DATA_VARIANT, Entity::DATA_TYPE_INT, ((int) ($data[0] ?? 1)) | (((int) ($data[1] ?? 0)) << 8));
 																$entity->sendData($entity->getViewers());
 																$sender->sendMessage($this->prefix . "Block updated.");
 															} else {
@@ -545,7 +541,7 @@ class Main extends PluginBase implements Listener {
 													case "scale":
 													case "size":
 														if(isset($args[2])) {
-															$scale = floatval($args[2]);
+															$scale = (float) $args[2];
 															$entity->setDataProperty(Entity::DATA_SCALE, Entity::DATA_TYPE_FLOAT, $scale);
 															$entity->sendData($entity->getViewers());
 															$sender->sendMessage($this->prefix . "Updated scale.");

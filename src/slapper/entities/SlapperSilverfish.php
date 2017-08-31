@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperSilverfish extends SlapperEntity {
 
-	public $entityId = 39;
+	const TYPE_ID = 39;
+	const HEIGHT = 0.3;
 
 }

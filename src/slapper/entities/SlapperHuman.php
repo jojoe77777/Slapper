@@ -66,7 +66,6 @@ class SlapperHuman extends Human {
 			$pk->uuid = $uuid;
 			$pk->username = "";
 			$pk->entityRuntimeId = $entityId;
-			$pk->eid = $entityId; // TODO: remove when ALPHA6 is merged into master
 			$pk->x = $this->x;
 			$pk->y = $this->y;
 			$pk->z = $this->z;

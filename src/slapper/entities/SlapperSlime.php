@@ -3,6 +3,7 @@ namespace slapper\entities;
 
 class SlapperSlime extends SlapperEntity {
 
-	public $entityId = 37;
+	const TYPE_ID = 37;
+	const HEIGHT = 0.51;
 
 }

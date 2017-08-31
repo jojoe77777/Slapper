@@ -6,7 +6,7 @@ use slapper\entities\SlapperEntity;
 
 class SlapperPrimedTNT extends SlapperEntity {
 
-	public $entityId = 65;
-	public $offset = 0.8;
+	const TYPE_ID = 65;
+	const HEIGHT = 0.98;
 
 }

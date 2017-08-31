@@ -3,7 +3,7 @@ author: jojoe77777
 version: 1.3.5
 description: Slapper, the NPC plugin for PocketMine/Genisys
 main: slapper\Main
-api: [3.0.0-ALPHA5, 3.0.0-ALPHA6]
+api: [3.0.0-ALPHA7]
 website: https://github.com/jojoe77777/Slapper
 
 commands:
@@ -51,6 +51,3 @@ permissions:
   slapper.nothing:
     description: Allow doing nothing
     default: op
-  slapper.seeId:
-    description: Allow seeing entity IDs under the names of Slapper NPCs
-    default: false
