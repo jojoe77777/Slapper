@@ -250,7 +250,7 @@ class Main extends PluginBase implements Listener {
 							break;
 						case "remove":
 							if($sender->hasPermission("slapper.remove") || $sender->hasPermission("slapper")) {
-								if(isset($args[0]) && intval($args[0] !== 0)) {
+								if(isset($args[0]) && intval($args[0]) !== 0) {
 									$entity = $sender->getLevel()->getEntity(intval($args[0]));
 									if($entity !== null) {
 										if($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
