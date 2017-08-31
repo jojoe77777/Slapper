@@ -51,6 +51,3 @@ permissions:
   slapper.nothing:
     description: Allow doing nothing
     default: op
-  slapper.seeId:
-    description: Allow seeing entity IDs under the names of Slapper NPCs
-    default: false
