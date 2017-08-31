@@ -2,24 +2,32 @@
 
 namespace slapper\events;
 
-use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityEvent;
 use pocketmine\Player;
+use slapper\entities\SlapperEntity;
 
 class SlapperCreationEvent extends EntityEvent {
+	public static $handlerList = null;
 
 	const CAUSE_COMMAND = 0;
 
+	/** @var SlapperEntity */
 	protected $entity;
 	/** @var string */
 	private $type;
-	/** @var Player | null */
+	/** @var Player|null */
 	private $creator;
+	/** @var int */
 	private $cause;
 
-	public static $handlerList = null;
 
-	public function __construct(Entity $entity, $type, $creator = null, $cause = self::CAUSE_COMMAND) {
+	/**
+	 * @param SlapperEntity $entity
+	 * @param string        $type
+	 * @param Player|null   $creator
+	 * @param int           $cause
+	 */
+	public function __construct(SlapperEntity $entity, $type, Player $creator = null, $cause = self::CAUSE_COMMAND) {
 		$this->entity = $entity;
 		$this->type = $type;
 		$this->creator = $creator;
