@@ -594,7 +594,7 @@ class Main extends PluginBase implements Listener {
 						case "apawn":
 						case "spanw":
 							$type = array_shift($args);
-							$name = str_replace("{color}", "§", str_replace("{line}", "\n", trim(implode(" ", $args))));
+							$name = str_replace(["{color}", "{line}"], ["§", "\n"], trim(implode(" ", $args)));
 							if(empty(trim($type))) {
 								$sender->sendMessage($this->prefix . "Please enter an entity type.");
 								return true;
