@@ -250,8 +250,8 @@ class Main extends PluginBase implements Listener {
 							break;
 						case "remove":
 							if($sender->hasPermission("slapper.remove") || $sender->hasPermission("slapper")) {
-								if(isset($args[0]) && intval($args[0]) !== 0) {
-									$entity = $sender->getLevel()->getEntity(intval($args[0]));
+								if(isset($args[0])) {
+									$entity = $sender->getLevel()->getEntity((int) $args[0]);
 									if($entity !== null) {
 										if($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
 											$this->getServer()->getPluginManager()->callEvent(new SlapperDeletionEvent($entity));
@@ -277,7 +277,7 @@ class Main extends PluginBase implements Listener {
 							if($sender->hasPermission("slapper.edit") || $sender->hasPermission("slapper")) {
 								if(isset($args[0])) {
 									$level = $sender->getLevel();
-									$entity = $level->getEntity($args[0]);
+									$entity = $level->getEntity((int) $args[0]);
 									if($entity !== null) {
 										if($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
 											if(isset($args[1])) {
@@ -653,18 +653,18 @@ class Main extends PluginBase implements Listener {
 	private function makeNBT($type, Player $player) {
 		$nbt = new CompoundTag;
 		$nbt->Pos = new ListTag("Pos", [
-			new DoubleTag(0, $player->getX()),
-			new DoubleTag(1, $player->getY()),
-			new DoubleTag(2, $player->getZ())
+			new DoubleTag("", $player->getX()),
+			new DoubleTag("", $player->getY()),
+			new DoubleTag("", $player->getZ())
 		]);
 		$nbt->Motion = new ListTag("Motion", [
-			new DoubleTag(0, 0),
-			new DoubleTag(1, 0),
-			new DoubleTag(2, 0)
+			new DoubleTag("", 0),
+			new DoubleTag("", 0),
+			new DoubleTag("", 0)
 		]);
 		$nbt->Rotation = new ListTag("Rotation", [
-			new FloatTag(0, $player->getYaw()),
-			new FloatTag(1, $player->getPitch())
+			new FloatTag("", $player->getYaw()),
+			new FloatTag("", $player->getPitch())
 		]);
 		$nbt->Health = new ShortTag("Health", 1);
 		$nbt->Commands = new CompoundTag("Commands", []);

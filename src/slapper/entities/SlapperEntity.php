@@ -16,7 +16,7 @@ class SlapperEntity extends Entity {
 
 	public function __construct(Level $level, CompoundTag $nbt) {
 		parent::__construct($level, $nbt);
-		static::prepareMetadata();
+		$this->prepareMetadata();
 	}
 
 	public function prepareMetadata() {
