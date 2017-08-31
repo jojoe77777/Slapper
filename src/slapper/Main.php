@@ -112,16 +112,15 @@ class Main extends PluginBase implements Listener {
 	/** @var array */
 	public $idSessions = [];
 	/** @vae string */
-	public $prefix = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] ");
+	public $prefix = TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] ";
 	/** @var string */
-	public $noperm = (TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] You don't have permission.");
+	public $noperm = TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] You don't have permission.";
 	/** @var string */
 	public $helpHeader =
-		(
-			TextFormat::YELLOW . "---------- " .
-			TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper Help" . TextFormat::GREEN . "] " .
-			TextFormat::YELLOW . "----------"
-		);
+		TextFormat::YELLOW . "---------- " .
+		TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper Help" . TextFormat::GREEN . "] " .
+		TextFormat::YELLOW . "----------";
+
 	/** @var string[] */
 	public $mainArgs = [
 		"help: /slapper help",
@@ -209,7 +208,7 @@ class Main extends PluginBase implements Listener {
 				break;
 			case "slapper":
 				if($sender instanceof Player) {
-					if(!(isset($args[0]))) {
+					if(!isset($args[0])) {
 						if($sender->hasPermission("slapper.command") || $sender->hasPermission("slapper")) {
 							$sender->sendMessage($this->prefix . "Please type '/slapper help'.");
 							return true;
@@ -492,7 +491,7 @@ class Main extends PluginBase implements Listener {
 													case "listcommands":
 													case "listcmds":
 													case "listcs":
-														if(!(empty($entity->namedtag->Commands))) {
+														if(!empty($entity->namedtag->Commands)) {
 															$id = 0;
 															foreach ($entity->namedtag->Commands as $cmd) {
 																$id++;
@@ -557,7 +556,7 @@ class Main extends PluginBase implements Listener {
 											} else {
 												$sender->sendMessage($this->helpHeader);
 												foreach ($this->editArgs as $msgArg) {
-													$sender->sendMessage(str_replace("<eid>", $args[0], (TextFormat::GREEN . " - " . $msgArg . "\n")));
+													$sender->sendMessage(str_replace("<eid>", $args[0], TextFormat::GREEN . " - " . $msgArg . "\n"));
 												}
 												return true;
 											}
