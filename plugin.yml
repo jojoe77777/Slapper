@@ -48,6 +48,3 @@ permissions:
   slapper.help:
     description: Allow viewing Slapper help page
     default: op
-  slapper.nothing:
-    description: Allow doing nothing
-    default: op
