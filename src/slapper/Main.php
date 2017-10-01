@@ -360,7 +360,7 @@ class Main extends PluginBase implements Listener {
 													case "editskin";
 													case "skin":
 														if($entity instanceof SlapperHuman) {
-															$entity->setSkin($sender->getSkinData(), $sender->getSkinId());
+															$entity->setSkin($sender->getSkin());
 															$entity->sendData($entity->getViewers());
 															$sender->sendMessage($this->prefix . "Skin updated.");
 														} else {
@@ -672,7 +672,7 @@ class Main extends PluginBase implements Listener {
 		if($type === "Human") {
 			$player->saveNBT();
 			$nbt->Inventory = clone $player->namedtag->Inventory;
-			$nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkinData()), "Name" => new StringTag("Name", $player->getSkinId())]);
+			$nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkin()->getSkinData()), "Name" => new StringTag("Name", $player->getSkin()->getSkinId())]);
 		}
 		return $nbt;
 	}
