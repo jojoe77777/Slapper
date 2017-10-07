@@ -57,26 +57,12 @@ class SlapperHuman extends Human {
 
 	public function spawnTo(Player $player) {
 		if(!isset($this->hasSpawned[$player->getLoaderId()])) {
-			$this->hasSpawned[$player->getLoaderId()] = $player;
+			parent::spawnTo($player);
 
-			$uuid = $this->getUniqueId();
-			$entityId = $this->getId();
+			$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
 
-			$pk = new AddPlayerPacket();
-			$pk->uuid = $uuid;
-			$pk->username = "";
-			$pk->entityRuntimeId = $entityId;
-			$pk->position = $this->asVector3();
-			$pk->yaw = $this->yaw;
-			$pk->pitch = $this->pitch;
-			$pk->item = $this->getInventory()->getItemInHand();
-			$pk->metadata = $this->dataProperties;
-			$pk->metadata[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($player)];
-			$player->dataPacket($pk);
-			$this->inventory->sendArmorContents($player);
-			$player->server->updatePlayerListData($uuid, $entityId, $this->namedtag["MenuName"] ?? "", $this->skin, [$player]);
-			if($this->namedtag["MenuName"] === "") {
-				$player->server->removePlayerListData($uuid, [$player]);
+			if(isset($this->namedtag["MenuName"]) and $this->namedtag["MenuName"] !== "") {
+				$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->namedtag["MenuName"], $this->skin, [$player]);
 			}
 		}
 	}
