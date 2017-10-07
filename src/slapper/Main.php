@@ -347,6 +347,7 @@ class Main extends PluginBase implements Listener {
 														if($entity instanceof SlapperHuman) {
 															if(isset($args[2])) {
 																$entity->getInventory()->setItemInHand(Item::fromString($args[2]));
+																$entity->getInventory()->sendHeldItem($entity->getViewers());
 																$sender->sendMessage($this->prefix . "Item updated.");
 															} else {
 																$sender->sendMessage($this->prefix . "Please enter an item ID.");
