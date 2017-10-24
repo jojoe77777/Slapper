@@ -63,7 +63,7 @@ class SlapperEntity extends Entity {
 		$this->namedtag->Scale = new FloatTag("Scale", $scale);
 	}
 
-	public function spawnTo(Player $player) {
+	protected function sendSpawnPacket(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->entityRuntimeId = $this->getId();
 		$pk->type = static::TYPE_ID;
@@ -72,8 +72,8 @@ class SlapperEntity extends Entity {
 		$pk->pitch = $this->pitch;
 		$pk->metadata = $this->dataProperties;
 		$pk->metadata[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($player)];
+
 		$player->dataPacket($pk);
-		parent::spawnTo($player);
 	}
 
 	public function getDisplayName(Player $player) {

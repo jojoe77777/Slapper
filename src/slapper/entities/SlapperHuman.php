@@ -7,7 +7,6 @@ use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
-use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
@@ -55,16 +54,15 @@ class SlapperHuman extends Human {
 		$this->namedtag->Scale = new FloatTag("Scale", $scale);
 	}
 
-	public function spawnTo(Player $player) {
-		if(!isset($this->hasSpawned[$player->getLoaderId()])) {
-			parent::spawnTo($player);
+	protected function sendSpawnPacket(Player $player) : void{
+		parent::sendSpawnPacket($player);
 
-			$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
+		$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
 
-			if(isset($this->namedtag["MenuName"]) and $this->namedtag["MenuName"] !== "") {
-				$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->namedtag["MenuName"], $this->skin, [$player]);
-			}
+		if(isset($this->namedtag["MenuName"]) and $this->namedtag["MenuName"] !== "") {
+			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->namedtag["MenuName"], $this->skin, [$player]);
 		}
+
 	}
 
 	public function getDisplayName(Player $player) {
