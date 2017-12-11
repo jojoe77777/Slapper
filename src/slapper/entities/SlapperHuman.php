@@ -53,7 +53,7 @@ class SlapperHuman extends Human {
 			$cape = isset($skin["Cape"]) ? $skin->getString("Cape") : "";
 			$geometryName = isset($skin["GeometryName"]) ? $skin->getString("GeometryName") : "";
 			$geometryData = isset($skin["GeometryData"]) ? $skin->getString("GeometryData") : "";
-			$this->setSkin(new Skin($name,$data, $cape, $geometryName, $geometryData));
+			$this->setSkin(new Skin($name, $data, $cape, $geometryName, $geometryData));
 		}
 	}
 
