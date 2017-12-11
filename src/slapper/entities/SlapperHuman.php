@@ -3,10 +3,12 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
+use pocketmine\entity\Skin;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
@@ -40,6 +42,21 @@ class SlapperHuman extends Human {
 		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
 	}
 
+	// TODO: This can be removed when PMMP updates Human class to handle Capes and Custom Geometry
+	protected function initHumanData(){
+		parent::initHumanData();
+
+		$skin = $this->namedtag->getCompoundTag("Skin");
+		if($skin !== null){
+			$name = $skin->getString("Name");
+			$data = $skin->getString("Data");
+			$cape = isset($skin["Cape"]) ? $skin->getString("Cape") : "";
+			$geometryName = isset($skin["GeometryName"]) ? $skin->getString("GeometryName") : "";
+			$geometryData = isset($skin["GeometryData"]) ? $skin->getString("GeometryData") : "";
+			$this->setSkin(new Skin($name,$data, $cape, $geometryName, $geometryData));
+		}
+	}
+
 	public function saveNBT() {
 		parent::saveNBT();
 		$visibility = 0;
@@ -52,6 +69,16 @@ class SlapperHuman extends Human {
 		$scale = $this->getDataProperty(Entity::DATA_SCALE);
 		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
 		$this->namedtag->Scale = new FloatTag("Scale", $scale);
+		if($this->skin !== null){
+			// TODO: This will need to be updated when PMMP updates Human class to handle Capes and Custom Geometry
+			$this->namedtag->setTag(new CompoundTag("Skin", [
+				new StringTag("Data", $this->skin->getSkinData()),
+				new StringTag("Name", $this->skin->getSkinId()),
+				new StringTag("Cape", $this->skin->getCapeData()),
+				new StringTag("GeometryName", $this->skin->getGeometryName()),
+				new StringTag("GeometryData", $this->skin->getGeometryData())
+			]) );
+		}
 	}
 
 	protected function sendSpawnPacket(Player $player) : void{

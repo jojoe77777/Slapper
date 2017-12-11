@@ -670,10 +670,18 @@ class Main extends PluginBase implements Listener {
 		$nbt->Commands = new CompoundTag("Commands", []);
 		$nbt->MenuName = new StringTag("MenuName", "");
 		$nbt->SlapperVersion = new StringTag("SlapperVersion", $this->getDescription()->getVersion());
-		if($type === "Human") {
+
+		// TODO: This will need to be updated when PMMP updates Human class to handle Capes and Custom Geometry
+		if($type === "Human"){
 			$player->saveNBT();
 			$nbt->Inventory = clone $player->namedtag->Inventory;
-			$nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkin()->getSkinData()), "Name" => new StringTag("Name", $player->getSkin()->getSkinId())]);
+			$nbt->Skin = new CompoundTag("Skin", [
+				"Data" => new StringTag("Data", $player->getSkin()->getSkinData()),
+				"Name" => new StringTag("Name", $player->getSkin()->getSkinId()),
+				"Cape" => new StringTag("Cape", $player->getSkin()->getCapeData()),
+				"GeometryName" => new StringTag("GeometryName", $player->getSkin()->getGeometryName()),
+				"GeometryData" => new StringTag("GeometryData", $player->getSkin()->getGeometryData())
+			]);
 		}
 		return $nbt;
 	}
