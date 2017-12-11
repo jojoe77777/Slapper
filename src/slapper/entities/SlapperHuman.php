@@ -5,6 +5,7 @@ use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
 use pocketmine\entity\Skin;
 use pocketmine\level\Level;
+use pocketmine\nbt\tag\ByteArrayTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
@@ -52,7 +53,7 @@ class SlapperHuman extends Human {
 			$data = $skin->getString("Data");
 			$cape = isset($skin["Cape"]) ? $skin->getString("Cape") : "";
 			$geometryName = isset($skin["GeometryName"]) ? $skin->getString("GeometryName") : "";
-			$geometryData = isset($skin["GeometryData"]) ? $skin->getString("GeometryData") : "";
+			$geometryData = isset($skin["GeometryData"]) ? $skin->getByteArray("GeometryData") : "";
 			$this->setSkin(new Skin($name, $data, $cape, $geometryName, $geometryData));
 		}
 	}
@@ -76,7 +77,7 @@ class SlapperHuman extends Human {
 				new StringTag("Name", $this->skin->getSkinId()),
 				new StringTag("Cape", $this->skin->getCapeData()),
 				new StringTag("GeometryName", $this->skin->getGeometryName()),
-				new StringTag("GeometryData", $this->skin->getGeometryData())
+				new ByteArrayTag("GeometryData", $this->skin->getGeometryData())
 			]) );
 		}
 	}

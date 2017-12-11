@@ -11,6 +11,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\Listener;
 use pocketmine\Item\Item;
+use pocketmine\nbt\tag\ByteArrayTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
@@ -676,11 +677,11 @@ class Main extends PluginBase implements Listener {
 			$player->saveNBT();
 			$nbt->Inventory = clone $player->namedtag->Inventory;
 			$nbt->Skin = new CompoundTag("Skin", [
-				"Data" => new StringTag("Data", $player->getSkin()->getSkinData()),
-				"Name" => new StringTag("Name", $player->getSkin()->getSkinId()),
-				"Cape" => new StringTag("Cape", $player->getSkin()->getCapeData()),
-				"GeometryName" => new StringTag("GeometryName", $player->getSkin()->getGeometryName()),
-				"GeometryData" => new StringTag("GeometryData", $player->getSkin()->getGeometryData())
+				new StringTag("Data", $player->getSkin()->getSkinData()),
+				new StringTag("Name", $player->getSkin()->getSkinId()),
+				new StringTag("Cape", $player->getSkin()->getCapeData()),
+				new StringTag("GeometryName", $player->getSkin()->getGeometryName()),
+				new ByteArrayTag("GeometryData", $player->getSkin()->getGeometryData())
 			]);
 		}
 		return $nbt;
