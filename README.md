@@ -11,3 +11,4 @@ Official addons:
 - [SlapBack](https://github.com/jojoe77777/SlapBack)
 - [SlapperRotation](https://github.com/jojoe77777/SlapperRotation)
 - [SlapperCache](https://github.com/jojoe77777/SlapperCache)
+- [SlapperPlus](https://github.com/jojoe77777/SlapperPlus)
