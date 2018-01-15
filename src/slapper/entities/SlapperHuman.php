@@ -17,7 +17,7 @@ class SlapperHuman extends Human {
 	public function __construct(Level $level, CompoundTag $nbt) {
 		parent::__construct($level, $nbt);
 		if(!isset($this->namedtag->NameVisibility)) {
-			$this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
+			$this->namedtag->setTag(new IntTag("NameVisibility", 2));
 		}
 		switch ($this->namedtag->NameVisibility->getValue()) {
 			case 0:
@@ -38,7 +38,7 @@ class SlapperHuman extends Human {
 				break;
 		}
 		if(!isset($this->namedtag->Scale)) {
-			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
+			$this->namedtag->setTag(new FloatTag("Scale", 1.0));
 		}
 		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
 	}
@@ -68,8 +68,8 @@ class SlapperHuman extends Human {
 			}
 		}
 		$scale = $this->getDataProperty(Entity::DATA_SCALE);
-		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
-		$this->namedtag->Scale = new FloatTag("Scale", $scale);
+		$this->namedtag->setTag(new IntTag("NameVisibility", $visibility));
+		$this->namedtag->setTag(new FloatTag("Scale", $scale));
 		if($this->skin !== null){
 			// TODO: This will need to be updated when PMMP updates Human class to handle Capes and Custom Geometry
 			$this->namedtag->setTag(new CompoundTag("Skin", [
