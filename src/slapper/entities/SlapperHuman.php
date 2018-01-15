@@ -3,10 +3,13 @@ namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
+use pocketmine\entity\Skin;
 use pocketmine\level\Level;
+use pocketmine\nbt\tag\ByteArrayTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 
 class SlapperHuman extends Human {
@@ -14,7 +17,7 @@ class SlapperHuman extends Human {
 	public function __construct(Level $level, CompoundTag $nbt) {
 		parent::__construct($level, $nbt);
 		if(!isset($this->namedtag->NameVisibility)) {
-			$this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
+			$this->namedtag->setTag(new IntTag("NameVisibility", 2));
 		}
 		switch ($this->namedtag->NameVisibility->getValue()) {
 			case 0:
@@ -35,9 +38,24 @@ class SlapperHuman extends Human {
 				break;
 		}
 		if(!isset($this->namedtag->Scale)) {
-			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
+			$this->namedtag->setTag(new FloatTag("Scale", 1.0));
 		}
 		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
+	}
+
+	// TODO: This can be removed when PMMP updates Human class to handle Capes and Custom Geometry
+	protected function initHumanData(){
+		parent::initHumanData();
+
+		$skin = $this->namedtag->getCompoundTag("Skin");
+		if($skin !== null){
+			$name = $skin->getString("Name");
+			$data = $skin->getString("Data");
+			$cape = isset($skin["Cape"]) ? $skin->getString("Cape") : "";
+			$geometryName = isset($skin["GeometryName"]) ? $skin->getString("GeometryName") : "";
+			$geometryData = isset($skin["GeometryData"]) ? $skin->getByteArray("GeometryData") : "";
+			$this->setSkin(new Skin($name, $data, $cape, $geometryName, $geometryData));
+		}
 	}
 
 	public function saveNBT() {
@@ -50,8 +68,18 @@ class SlapperHuman extends Human {
 			}
 		}
 		$scale = $this->getDataProperty(Entity::DATA_SCALE);
-		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
-		$this->namedtag->Scale = new FloatTag("Scale", $scale);
+		$this->namedtag->setTag(new IntTag("NameVisibility", $visibility));
+		$this->namedtag->setTag(new FloatTag("Scale", $scale));
+		if($this->skin !== null){
+			// TODO: This will need to be updated when PMMP updates Human class to handle Capes and Custom Geometry
+			$this->namedtag->setTag(new CompoundTag("Skin", [
+				new StringTag("Data", $this->skin->getSkinData()),
+				new StringTag("Name", $this->skin->getSkinId()),
+				new StringTag("Cape", $this->skin->getCapeData()),
+				new StringTag("GeometryName", $this->skin->getGeometryName()),
+				new ByteArrayTag("GeometryData", $this->skin->getGeometryData())
+			]) );
+		}
 	}
 
 	protected function sendSpawnPacket(Player $player) : void{

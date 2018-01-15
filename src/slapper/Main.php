@@ -11,6 +11,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\Listener;
 use pocketmine\Item\Item;
+use pocketmine\nbt\tag\ByteArrayTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
@@ -652,28 +653,36 @@ class Main extends PluginBase implements Listener {
 	 */
 	private function makeNBT($type, Player $player) {
 		$nbt = new CompoundTag;
-		$nbt->Pos = new ListTag("Pos", [
+		$nbt->setTag(new ListTag("Pos", [
 			new DoubleTag("", $player->getX()),
 			new DoubleTag("", $player->getY()),
 			new DoubleTag("", $player->getZ())
-		]);
-		$nbt->Motion = new ListTag("Motion", [
+		]));
+		$nbt->setTag(new ListTag("Motion", [
 			new DoubleTag("", 0),
 			new DoubleTag("", 0),
 			new DoubleTag("", 0)
-		]);
-		$nbt->Rotation = new ListTag("Rotation", [
+		]));
+		$nbt->setTag(new ListTag("Rotation", [
 			new FloatTag("", $player->getYaw()),
 			new FloatTag("", $player->getPitch())
-		]);
-		$nbt->Health = new ShortTag("Health", 1);
-		$nbt->Commands = new CompoundTag("Commands", []);
-		$nbt->MenuName = new StringTag("MenuName", "");
-		$nbt->SlapperVersion = new StringTag("SlapperVersion", $this->getDescription()->getVersion());
-		if($type === "Human") {
+		]));
+		$nbt->setTag(new ShortTag("Health", 1));
+		$nbt->setTag(new CompoundTag("Commands", []));
+		$nbt->setTag(new StringTag("MenuName", ""));
+		$nbt->setTag(new StringTag("SlapperVersion", $this->getDescription()->getVersion()));
+
+		// TODO: This will need to be updated when PMMP updates Human class to handle Capes and Custom Geometry
+		if($type === "Human"){
 			$player->saveNBT();
-			$nbt->Inventory = clone $player->namedtag->Inventory;
-			$nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkin()->getSkinData()), "Name" => new StringTag("Name", $player->getSkin()->getSkinId())]);
+			$nbt->setTag(clone $player->namedtag->Inventory);
+			$nbt->setTag(new CompoundTag("Skin", [
+				new StringTag("Data", $player->getSkin()->getSkinData()),
+				new StringTag("Name", $player->getSkin()->getSkinId()),
+				new StringTag("Cape", $player->getSkin()->getCapeData()),
+				new StringTag("GeometryName", $player->getSkin()->getGeometryName()),
+				new ByteArrayTag("GeometryData", $player->getSkin()->getGeometryData())
+			]));
 		}
 		return $nbt;
 	}

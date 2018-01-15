@@ -43,7 +43,7 @@ class SlapperEntity extends Entity {
 		}
 		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, true);
 		if(!isset($this->namedtag->Scale)) {
-			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
+			$this->namedtag->setTag(new FloatTag("Scale", 1.0));
 		}
 		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
 		$this->setDataProperty(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, static::HEIGHT);
@@ -59,8 +59,8 @@ class SlapperEntity extends Entity {
 			}
 		}
 		$scale = $this->getDataProperty(Entity::DATA_SCALE);
-		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
-		$this->namedtag->Scale = new FloatTag("Scale", $scale);
+		$this->namedtag->setTag(new IntTag("NameVisibility", $visibility));
+		$this->namedtag->setTag(new FloatTag("Scale", $scale));
 	}
 
 	protected function sendSpawnPacket(Player $player) : void{
