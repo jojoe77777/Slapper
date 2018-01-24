@@ -16,12 +16,12 @@ class SlapperFallingSand extends SlapperEntity {
 		if(!isset($this->namedtag->BlockID)) {
 			$this->namedtag->BlockID = new IntTag("BlockID", 1);
 		}
-		$this->setDataProperty(self::DATA_VARIANT, self::DATA_TYPE_INT, $this->namedtag->BlockID->getValue());
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_VARIANT, self::DATA_TYPE_INT, $this->namedtag->BlockID->getValue());
 	}
 
 	public function saveNBT() {
 		parent::saveNBT();
-		$this->namedtag->BlockID = new IntTag("BlockID", $this->getDataProperty(self::DATA_VARIANT));
+		$this->namedtag->BlockID = new IntTag("BlockID", $this->getDataPropertyManager()->getInt(self::DATA_VARIANT));
 	}
 
 }

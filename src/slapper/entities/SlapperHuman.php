@@ -37,7 +37,7 @@ class SlapperHuman extends Human {
 		if(!isset($this->namedtag->Scale)) {
 			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
 		}
-		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
 	}
 
 	public function saveNBT() {
@@ -49,7 +49,7 @@ class SlapperHuman extends Human {
 				$visibility = 2;
 			}
 		}
-		$scale = $this->getDataProperty(Entity::DATA_SCALE);
+		$scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
 		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
 		$this->namedtag->Scale = new FloatTag("Scale", $scale);
 	}

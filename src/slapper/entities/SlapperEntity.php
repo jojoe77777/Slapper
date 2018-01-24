@@ -45,8 +45,8 @@ class SlapperEntity extends Entity {
 		if(!isset($this->namedtag->Scale)) {
 			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
 		}
-		$this->setDataProperty(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
-		$this->setDataProperty(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, static::HEIGHT);
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, static::HEIGHT);
 	}
 
 	public function saveNBT() {
@@ -58,7 +58,7 @@ class SlapperEntity extends Entity {
 				$visibility = 2;
 			}
 		}
-		$scale = $this->getDataProperty(Entity::DATA_SCALE);
+		$scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
 		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
 		$this->namedtag->Scale = new FloatTag("Scale", $scale);
 	}
@@ -70,7 +70,7 @@ class SlapperEntity extends Entity {
 		$pk->position = $this->asVector3();
 		$pk->yaw = $this->yaw;
 		$pk->pitch = $this->pitch;
-		$pk->metadata = $this->dataProperties;
+		$pk->metadata = $this->getDataPropertyManager()->getAll();
 		$pk->metadata[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($player)];
 
 		$player->dataPacket($pk);
