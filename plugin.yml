@@ -3,7 +3,7 @@ author: jojoe77777
 version: 1.3.7
 description: Slapper, the NPC plugin for PocketMine-MP
 main: slapper\Main
-api: [3.0.0-ALPHA9, 3.0.0-ALPHA10]
+api: [3.0.0-ALPHA11]
 website: https://github.com/jojoe77777/Slapper
 
 commands:
