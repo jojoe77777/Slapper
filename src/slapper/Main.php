@@ -399,9 +399,9 @@ class Main extends PluginBase implements Listener {
 																		$type = 1;
 																}
 																if($type === 0) {
-																	$entity->namedtag->MenuName = new StringTag("MenuName", $input);
+																	$entity->namedtag->setString("MenuName", $input);
 																} else {
-																	$entity->namedtag->MenuName = new StringTag("MenuName", "");
+																	$entity->namedtag->setString("MenuName", "");
 																}
 																$entity->respawnToAll();
 																$sender->sendMessage($this->prefix . "Menu name updated.");
@@ -653,28 +653,34 @@ class Main extends PluginBase implements Listener {
 	 */
 	private function makeNBT($type, Player $player) {
 		$nbt = new CompoundTag;
-		$nbt->Pos = new ListTag("Pos", [
+		$nbt->setTag(new ListTag("Pos", [
 			new DoubleTag("", $player->getX()),
 			new DoubleTag("", $player->getY()),
 			new DoubleTag("", $player->getZ())
-		]);
-		$nbt->Motion = new ListTag("Motion", [
+		]));
+		$nbt->setTag(new ListTag("Motion", [
 			new DoubleTag("", 0),
 			new DoubleTag("", 0),
 			new DoubleTag("", 0)
-		]);
-		$nbt->Rotation = new ListTag("Rotation", [
+		]));
+		$nbt->setTag(new ListTag("Rotation", [
 			new FloatTag("", $player->getYaw()),
 			new FloatTag("", $player->getPitch())
-		]);
-		$nbt->Health = new ShortTag("Health", 1);
-		$nbt->Commands = new CompoundTag("Commands", []);
-		$nbt->MenuName = new StringTag("MenuName", "");
-		$nbt->SlapperVersion = new StringTag("SlapperVersion", $this->getDescription()->getVersion());
+		]));
+		$nbt->setShort("Health", 1);
+		$nbt->setTag(new CompoundTag("Commands", []));
+		$nbt->setString("MenuName", "");
+		$nbt->setString("SlapperVersion", $this->getDescription()->getVersion());
 		if($type === "Human") {
 			$player->saveNBT();
-			$nbt->Inventory = clone $player->namedtag->Inventory;
-			$nbt->Skin = new CompoundTag("Skin", ["Data" => new StringTag("Data", $player->getSkin()->getSkinData()), "Name" => new StringTag("Name", $player->getSkin()->getSkinId())]);
+
+			$inventoryTag = $player->namedtag->getListTag("Inventory");
+			assert($inventoryTag !== null);
+			$nbt->setTag(clone $inventoryTag);
+			$nbt->setTag(new CompoundTag("Skin", [
+				new StringTag("Data", $player->getSkin()->getSkinData()),
+				new StringTag("Name", $player->getSkin()->getSkinId())
+			]));
 		}
 		return $nbt;
 	}
