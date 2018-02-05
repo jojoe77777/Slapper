@@ -20,10 +20,10 @@ class SlapperEntity extends Entity {
 	}
 
 	public function prepareMetadata() {
-		if(!isset($this->namedtag->NameVisibility)) {
-			$this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
+		if(!$this->namedtag->hasTag("NameVisibility", IntTag::class)) {
+			$this->namedtag->setInt("NameVisibility", 2, true);
 		}
-		switch ($this->namedtag->NameVisibility->getValue()) {
+		switch ($this->namedtag->getInt("NameVisibility")) {
 			case 0:
 				$this->setNameTagVisible(false);
 				$this->setNameTagAlwaysVisible(false);
@@ -42,10 +42,10 @@ class SlapperEntity extends Entity {
 				break;
 		}
 		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, true);
-		if(!isset($this->namedtag->Scale)) {
-			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
+		if(!$this->namedtag->hasTag("Scale", FloatTag::class)) {
+			$this->namedtag->setFloat("Scale", 1.0, true);
 		}
-		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->getFloat("Scale"));
 		$this->getDataPropertyManager()->setPropertyValue(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, static::HEIGHT);
 	}
 

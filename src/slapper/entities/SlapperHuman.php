@@ -13,10 +13,10 @@ class SlapperHuman extends Human {
 
 	public function __construct(Level $level, CompoundTag $nbt) {
 		parent::__construct($level, $nbt);
-		if(!isset($this->namedtag->NameVisibility)) {
-			$this->namedtag->NameVisibility = new IntTag("NameVisibility", 2);
+		if(!$this->namedtag->hasTag("NameVisibility", IntTag::class)) {
+			$this->namedtag->setInt("NameVisibility", 2, true);
 		}
-		switch ($this->namedtag->NameVisibility->getValue()) {
+		switch ($this->namedtag->getInt("NameVisibility")) {
 			case 0:
 				$this->setNameTagVisible(false);
 				$this->setNameTagAlwaysVisible(false);
@@ -34,10 +34,11 @@ class SlapperHuman extends Human {
 				$this->setNameTagAlwaysVisible(true);
 				break;
 		}
-		if(!isset($this->namedtag->Scale)) {
-			$this->namedtag->Scale = new FloatTag("Scale", 1.0);
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, true);
+		if(!$this->namedtag->hasTag("Scale", FloatTag::class)) {
+			$this->namedtag->setFloat("Scale", 1.0, true);
 		}
-		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->Scale->getValue());
+		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->getFloat("Scale"));
 	}
 
 	public function saveNBT() {
@@ -50,8 +51,8 @@ class SlapperHuman extends Human {
 			}
 		}
 		$scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
-		$this->namedtag->NameVisibility = new IntTag("NameVisibility", $visibility);
-		$this->namedtag->Scale = new FloatTag("Scale", $scale);
+		$this->namedtag->setInt("NameVisibility", $visibility, true);
+		$this->namedtag->setFloat("Scale", $scale, true);
 	}
 
 	protected function sendSpawnPacket(Player $player) : void{
@@ -59,8 +60,8 @@ class SlapperHuman extends Human {
 
 		$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
 
-		if(isset($this->namedtag["MenuName"]) and $this->namedtag["MenuName"] !== "") {
-			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->namedtag["MenuName"], $this->skin, [$player]);
+		if(($menuName = $this->namedtag->getString("MenuName", "", true)) !== "") {
+			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, [$player]);
 		}
 
 	}
