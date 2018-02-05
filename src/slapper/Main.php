@@ -12,6 +12,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\Listener;
 use pocketmine\Item\Item;
+use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
@@ -466,11 +467,15 @@ class Main extends PluginBase implements Listener {
 															array_shift($args);
 															array_shift($args);
 															$input = trim(implode(" ", $args));
-															if(isset($entity->namedtag->Commands[$input])) {
+
+															$commands = $entity->namedtag->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+
+															if($commands->hasTag($input)) {
 																$sender->sendMessage($this->prefix . "That command has already been added.");
 																return true;
 															}
-															$entity->namedtag->Commands[$input] = new StringTag($input, $input);
+															$commands->setString($input, $input);
+															$entity->namedtag->setTag($commands); //in case a new CompoundTag was created
 															$sender->sendMessage($this->prefix . "Command added.");
 														} else {
 															$sender->sendMessage($this->prefix . "Please enter a command.");
@@ -484,7 +489,11 @@ class Main extends PluginBase implements Listener {
 															array_shift($args);
 															array_shift($args);
 															$input = trim(implode(" ", $args));
-															unset($entity->namedtag->Commands[$input]);
+
+															$commands = $entity->namedtag->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+
+															$commands->removeTag($input);
+															$entity->namedtag->setTag($commands); //in case a new CompoundTag was created
 															$sender->sendMessage($this->prefix . "Command removed.");
 														} else {
 															$sender->sendMessage($this->prefix . "Please enter a command.");
@@ -493,11 +502,14 @@ class Main extends PluginBase implements Listener {
 													case "listcommands":
 													case "listcmds":
 													case "listcs":
-														if(!empty($entity->namedtag->Commands)) {
+														$commands = $entity->namedtag->getCompoundTag("Commands");
+														if($commands !== null and $commands->getCount() > 0) {
 															$id = 0;
-															foreach ($entity->namedtag->Commands as $cmd) {
+
+															/** @var StringTag $stringTag */
+															foreach($commands as $stringTag){
 																$id++;
-																$sender->sendMessage(TextFormat::GREEN . "[" . TextFormat::YELLOW . "S" . TextFormat::GREEN . "] " . TextFormat::YELLOW . $id . ". " . TextFormat::GREEN . $cmd . "\n");
+																$sender->sendMessage(TextFormat::GREEN . "[" . TextFormat::YELLOW . "S" . TextFormat::GREEN . "] " . TextFormat::YELLOW . $id . ". " . TextFormat::GREEN . $stringTag->getValue() . "\n");
 															}
 														} else {
 															$sender->sendMessage($this->prefix . "That entity does not have any commands.");
@@ -721,10 +733,12 @@ class Main extends PluginBase implements Listener {
 				unset($this->idSessions[$damagerName]);
 				return;
 			}
-			if(isset($entity->namedtag->Commands)) {
+
+			if(($commands = $entity->namedtag->getCompoundTag("Commands")) !== null){
 				$server = $this->getServer();
-				foreach ($entity->namedtag->Commands as $cmd) {
-					$server->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", '"'.$damagerName.'"', $cmd));
+				/** @var StringTag $stringTag */
+				foreach ($commands as $stringTag) {
+					$server->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", '"'.$damagerName.'"', $stringTag->getValue()));
 				}
 			}
 		}
