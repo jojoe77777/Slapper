@@ -287,7 +287,7 @@ class Main extends PluginBase implements Listener {
 													case "head":
 													case "hat":
 													case "cap":
-														if($entity instanceof Living) {
+														if($entity instanceof SlapperHuman) {
 															if(isset($args[2])) {
 																$entity->getArmorInventory()->setHelmet(Item::fromString($args[2]));
 																$sender->sendMessage($this->prefix . "Helmet updated.");
@@ -301,7 +301,7 @@ class Main extends PluginBase implements Listener {
 													case "chest":
 													case "shirt":
 													case "chestplate":
-														if($entity instanceof Living) {
+														if($entity instanceof SlapperHuman) {
 															if(isset($args[2])) {
 																$entity->getArmorInventory()->setChestplate(Item::fromString($args[2]));
 																$sender->sendMessage($this->prefix . "Chestplate updated.");
@@ -315,7 +315,7 @@ class Main extends PluginBase implements Listener {
 													case "pants":
 													case "legs":
 													case "leggings":
-														if($entity instanceof Living) {
+														if($entity instanceof SlapperHuman) {
 															if(isset($args[2])) {
 																$entity->getArmorInventory()->setLeggings(Item::fromString($args[2]));
 																$sender->sendMessage($this->prefix . "Leggings updated.");
@@ -329,7 +329,7 @@ class Main extends PluginBase implements Listener {
 													case "feet":
 													case "boots":
 													case "shoes":
-														if($entity instanceof Living) {
+														if($entity instanceof SlapperHuman) {
 															if(isset($args[2])) {
 																$entity->getArmorInventory()->setBoots(Item::fromString($args[2]));
 																$sender->sendMessage($this->prefix . "Boots updated.");
