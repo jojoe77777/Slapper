@@ -14,7 +14,6 @@ done
 
 if ls Slapper.phar >/dev/null 2>&1; then
     echo "Slapper phar created successfully."
-    curl http://139.59.228.212/build/build.php
     echo "Temporary alternate download:"
     curl --upload-file ./Slapper.phar https://transfer.sh/Slapper.phar
 else
