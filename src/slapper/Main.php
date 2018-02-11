@@ -687,10 +687,10 @@ class Main extends PluginBase implements Listener {
 			$inventoryTag = $player->namedtag->getListTag("Inventory");
 			assert($inventoryTag !== null);
 			$nbt->setTag(clone $inventoryTag);
-			$nbt->setTag(new CompoundTag("Skin", [
-				new StringTag("Data", $player->getSkin()->getSkinData()),
-				new StringTag("Name", $player->getSkin()->getSkinId())
-			]));
+
+			$skinTag = $player->namedtag->getCompoundTag("Skin");
+			assert($skinTag !== null);
+			$nbt->setTag(clone $skinTag);
 		}
 		return $nbt;
 	}
