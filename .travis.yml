@@ -11,3 +11,4 @@ script:
 
 notifications:
  email: false
+ webhooks: http://melban.com/webhook/discord.php
