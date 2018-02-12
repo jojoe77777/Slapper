@@ -662,21 +662,7 @@ class Main extends PluginBase implements Listener {
 	 * @return CompoundTag
 	 */
 	private function makeNBT($type, Player $player) {
-		$nbt = new CompoundTag;
-		$nbt->setTag(new ListTag("Pos", [
-			new DoubleTag("", $player->getX()),
-			new DoubleTag("", $player->getY()),
-			new DoubleTag("", $player->getZ())
-		]));
-		$nbt->setTag(new ListTag("Motion", [
-			new DoubleTag("", 0),
-			new DoubleTag("", 0),
-			new DoubleTag("", 0)
-		]));
-		$nbt->setTag(new ListTag("Rotation", [
-			new FloatTag("", $player->getYaw()),
-			new FloatTag("", $player->getPitch())
-		]));
+		$nbt = Entity::createBaseNBT($player, null, $player->getYaw(), $player->getPitch());
 		$nbt->setShort("Health", 1);
 		$nbt->setTag(new CompoundTag("Commands", []));
 		$nbt->setString("MenuName", "");
