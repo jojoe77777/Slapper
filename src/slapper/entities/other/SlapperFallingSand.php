@@ -1,6 +1,7 @@
 <?php
 namespace slapper\entities\other;
 
+use pocketmine\block\BlockFactory;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
@@ -16,7 +17,9 @@ class SlapperFallingSand extends SlapperEntity {
 		if(!$this->namedtag->hasTag("BlockID", IntTag::class)){
 			$this->namedtag->setInt("BlockID", 1, true);
 		}
-		$this->getDataPropertyManager()->setPropertyValue(self::DATA_VARIANT, self::DATA_TYPE_INT, $this->namedtag->getInt("BlockID"));
+
+		//haxx: we shouldn't use toStaticRuntimeId() because it's internal, but there isn't really any better option at the moment
+		$this->getDataPropertyManager()->setInt(self::DATA_VARIANT, BlockFactory::toStaticRuntimeId($this->namedtag->getInt("BlockID")));
 	}
 
 	public function saveNBT() {

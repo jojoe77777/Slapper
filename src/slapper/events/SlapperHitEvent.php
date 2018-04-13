@@ -9,8 +9,6 @@ use pocketmine\Player;
 
 class SlapperHitEvent extends EntityEvent implements Cancellable {
 
-	public static $handlerList = null;
-
 	/** @var Player */
 	private $damager;
 

@@ -45,8 +45,8 @@ class SlapperEntity extends Entity {
 		if(!$this->namedtag->hasTag("Scale", FloatTag::class)) {
 			$this->namedtag->setFloat("Scale", 1.0, true);
 		}
-		$this->getDataPropertyManager()->setPropertyValue(self::DATA_SCALE, self::DATA_TYPE_FLOAT, $this->namedtag->getFloat("Scale"));
-		$this->getDataPropertyManager()->setPropertyValue(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, static::HEIGHT);
+		$this->getDataPropertyManager()->setFloat(self::DATA_SCALE, $this->namedtag->getFloat("Scale"));
+		$this->getDataPropertyManager()->setFloat(self::DATA_BOUNDING_BOX_HEIGHT, static::HEIGHT);
 	}
 
 	public function saveNBT() {

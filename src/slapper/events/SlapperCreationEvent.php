@@ -7,8 +7,6 @@ use pocketmine\Player;
 use pocketmine\entity\Entity;
 
 class SlapperCreationEvent extends EntityEvent {
-	public static $handlerList = null;
-
 	const CAUSE_COMMAND = 0;
 
 	/** @var Entity */
