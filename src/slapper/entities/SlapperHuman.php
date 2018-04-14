@@ -61,7 +61,7 @@ class SlapperHuman extends Human {
 		$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
 
 		if(($menuName = $this->namedtag->getString("MenuName", "", true)) !== "") {
-			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, [$player]);
+			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, "", [$player]);
 		}
 
 	}
