@@ -15,6 +15,8 @@ class SlapperEntity extends Entity {
 	const HEIGHT = 0;
 
 	public function __construct(Level $level, CompoundTag $nbt) {
+		$this->height = static::HEIGHT;
+		$this->width = $this->width ?? 1; //polyfill
 		parent::__construct($level, $nbt);
 		$this->prepareMetadata();
 	}
