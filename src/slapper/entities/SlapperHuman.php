@@ -41,7 +41,7 @@ class SlapperHuman extends Human {
 		$this->getDataPropertyManager()->setFloat(self::DATA_SCALE, $this->namedtag->getFloat("Scale"));
 	}
 
-	public function saveNBT() {
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$visibility = 0;
 		if($this->isNameTagVisible()) {
