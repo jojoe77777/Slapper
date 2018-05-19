@@ -51,7 +51,7 @@ class SlapperEntity extends Entity {
 		$this->getDataPropertyManager()->setFloat(self::DATA_BOUNDING_BOX_HEIGHT, static::HEIGHT);
 	}
 
-	public function saveNBT() {
+	public function saveNBT(): void {
 		parent::saveNBT();
 		$visibility = 0;
 		if($this->isNameTagVisible()) {
