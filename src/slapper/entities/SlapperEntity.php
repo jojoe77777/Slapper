@@ -23,36 +23,6 @@ class SlapperEntity extends Entity {
 		$this->prepareMetadata();
 	}
 
-	public function prepareMetadata() {
-		if(!$this->namedtag->hasTag("NameVisibility", IntTag::class)) {
-			$this->namedtag->setInt("NameVisibility", 2, true);
-		}
-		switch ($this->namedtag->getInt("NameVisibility")) {
-			case 0:
-				$this->setNameTagVisible(false);
-				$this->setNameTagAlwaysVisible(false);
-				break;
-			case 1:
-				$this->setNameTagVisible(true);
-				$this->setNameTagAlwaysVisible(false);
-				break;
-			case 2:
-				$this->setNameTagVisible(true);
-				$this->setNameTagAlwaysVisible(true);
-				break;
-			default:
-				$this->setNameTagVisible(true);
-				$this->setNameTagAlwaysVisible(true);
-				break;
-		}
-		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, true);
-		if(!$this->namedtag->hasTag("Scale", FloatTag::class)) {
-			$this->namedtag->setFloat("Scale", 1.0, true);
-		}
-		$this->getDataPropertyManager()->setFloat(self::DATA_SCALE, $this->namedtag->getFloat("Scale"));
-		$this->getDataPropertyManager()->setFloat(self::DATA_BOUNDING_BOX_HEIGHT, static::HEIGHT);
-	}
-
 	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->saveSlapperNbt();
