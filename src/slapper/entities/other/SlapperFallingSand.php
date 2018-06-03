@@ -22,7 +22,7 @@ class SlapperFallingSand extends SlapperEntity {
 		$this->getDataPropertyManager()->setInt(self::DATA_VARIANT, BlockFactory::toStaticRuntimeId($this->namedtag->getInt("BlockID")));
 	}
 
-	public function saveNBT() {
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->namedtag->setInt("BlockID", $this->getDataPropertyManager()->getInt(self::DATA_VARIANT), true);
 	}

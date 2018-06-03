@@ -18,7 +18,7 @@ class SlapperHuman extends Human {
 		$this->prepareMetadata();
 	}
 
-	public function saveNBT() {
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->saveSlapperNbt();
 	}

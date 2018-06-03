@@ -109,7 +109,7 @@ class Main extends PluginBase implements Listener {
 	public $hitSessions = [];
 	/** @var array */
 	public $idSessions = [];
-	/** @vae string */
+	/** @var string */
 	public $prefix = TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] ";
 	/** @var string */
 	public $noperm = TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper" . TextFormat::GREEN . "] You don't have permission.";
