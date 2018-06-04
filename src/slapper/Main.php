@@ -598,10 +598,9 @@ class Main extends PluginBase implements Listener {
                                 $sender->sendMessage($this->prefix . "Invalid entity type.");
                                 return true;
                             }
-                            $nbt = $this->makeNBT($chosenType, $sender);
+                            $nbt = $this->makeNBT($chosenType, $sender, $name);
                             /** @var SlapperEntity $entity */
                             $entity = Entity::createEntity("Slapper" . $chosenType, $sender->getLevel(), $nbt);
-                            $entity->setNameTag($name);
                             $entity->setNameTagVisible(true);
                             $entity->setNameTagAlwaysVisible(true);
                             $this->getServer()->getPluginManager()->callEvent(new SlapperCreationEvent($entity, "Slapper" . $chosenType, $sender, SlapperCreationEvent::CAUSE_COMMAND));
@@ -623,14 +622,16 @@ class Main extends PluginBase implements Listener {
     /**
      * @param string $type
      * @param Player $player
+     * @param string $name
      *
      * @return CompoundTag
      */
-    private function makeNBT($type, Player $player): CompoundTag {
+    private function makeNBT($type, Player $player, string $name): CompoundTag {
         $nbt = Entity::createBaseNBT($player, null, $player->getYaw(), $player->getPitch());
         $nbt->setShort("Health", 1);
         $nbt->setTag(new CompoundTag("Commands", []));
         $nbt->setString("MenuName", "");
+        $nbt->setString("CustomName", $name);
         $nbt->setString("SlapperVersion", $this->getDescription()->getVersion());
         if ($type === "Human") {
             $player->saveNBT();

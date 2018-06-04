@@ -9,6 +9,7 @@ use pocketmine\entity\Entity;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
 use pocketmine\Player;
 
 /**
@@ -69,6 +70,21 @@ trait SlapperTrait {
 
     public function tryChangeMovement(){
 
+    }
+
+    public function sendData($player, array $data = null) {
+        if(!is_array($player)){
+            $player = [$player];
+        }
+
+        foreach($player as $p){
+            $playerData = $data ?? $this->getDataPropertyManager()->getAll();
+            $playerData[self::DATA_NAMETAG] = [self::DATA_TYPE_STRING, $this->getDisplayName($p)];
+            $pk = new SetEntityDataPacket();
+            $pk->entityRuntimeId = $this->getId();
+            $pk->metadata = $playerData;
+            $p->dataPacket($pk);
+        }
     }
 
     public function saveSlapperNbt(): void {
