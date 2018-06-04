@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace slapper\entities;
 
 class SlapperVillager extends SlapperEntity {

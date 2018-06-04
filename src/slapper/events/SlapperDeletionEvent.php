@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace slapper\events;
 
 use pocketmine\entity\Entity;

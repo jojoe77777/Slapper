@@ -1,12 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace slapper\entities;
 
-use pocketmine\entity\Entity;
 use pocketmine\entity\Human;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 use slapper\SlapperTrait;
 
@@ -18,12 +18,12 @@ class SlapperHuman extends Human {
 		$this->prepareMetadata();
 	}
 
-	public function saveNBT() : void{
+	public function saveNBT() : void {
 		parent::saveNBT();
 		$this->saveSlapperNbt();
 	}
 
-	protected function sendSpawnPacket(Player $player) : void{
+	protected function sendSpawnPacket(Player $player) : void {
 		parent::sendSpawnPacket($player);
 
 		$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);

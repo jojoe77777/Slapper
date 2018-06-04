@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace slapper\entities\other;
 
 use pocketmine\block\BlockFactory;
@@ -22,7 +25,7 @@ class SlapperFallingSand extends SlapperEntity {
 		$this->getDataPropertyManager()->setInt(self::DATA_VARIANT, BlockFactory::toStaticRuntimeId($this->namedtag->getInt("BlockID")));
 	}
 
-	public function saveNBT() : void{
+	public function saveNBT() : void {
 		parent::saveNBT();
 		$this->namedtag->setInt("BlockID", $this->getDataPropertyManager()->getInt(self::DATA_VARIANT), true);
 	}

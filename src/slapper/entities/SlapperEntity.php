@@ -1,11 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace slapper\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\Player;
 use slapper\SlapperTrait;
@@ -23,12 +24,12 @@ class SlapperEntity extends Entity {
 		$this->prepareMetadata();
 	}
 
-	public function saveNBT() : void{
+    public function saveNBT() : void {
 		parent::saveNBT();
 		$this->saveSlapperNbt();
 	}
 
-	protected function sendSpawnPacket(Player $player) : void{
+	protected function sendSpawnPacket(Player $player) : void {
 		$pk = new AddEntityPacket();
 		$pk->entityRuntimeId = $this->getId();
 		$pk->type = static::TYPE_ID;

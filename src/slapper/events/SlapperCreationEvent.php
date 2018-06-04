@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace slapper\events;
 
 use pocketmine\event\entity\EntityEvent;
@@ -7,6 +9,7 @@ use pocketmine\Player;
 use pocketmine\entity\Entity;
 
 class SlapperCreationEvent extends EntityEvent {
+
 	const CAUSE_COMMAND = 0;
 
 	/** @var Entity */
