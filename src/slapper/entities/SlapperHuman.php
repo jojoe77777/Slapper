@@ -11,25 +11,25 @@ use pocketmine\Player;
 use slapper\SlapperTrait;
 
 class SlapperHuman extends Human {
-	use SlapperTrait;
+    use SlapperTrait;
 
-	public function __construct(Level $level, CompoundTag $nbt) {
-		parent::__construct($level, $nbt);
-		$this->prepareMetadata();
-	}
+    public function __construct(Level $level, CompoundTag $nbt) {
+        parent::__construct($level, $nbt);
+        $this->prepareMetadata();
+    }
 
-	public function saveNBT() : void {
-		parent::saveNBT();
-		$this->saveSlapperNbt();
-	}
+    public function saveNBT(): void {
+        parent::saveNBT();
+        $this->saveSlapperNbt();
+    }
 
-	protected function sendSpawnPacket(Player $player) : void {
-		parent::sendSpawnPacket($player);
+    protected function sendSpawnPacket(Player $player): void {
+        parent::sendSpawnPacket($player);
 
-		$this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
+        $this->sendData($player, [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]]);
 
-		if(($menuName = $this->namedtag->getString("MenuName", "", true)) !== "") {
-			$player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, "", [$player]);
-		}
-	}
+        if (($menuName = $this->namedtag->getString("MenuName", "", true)) !== "") {
+            $player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, "", [$player]);
+        }
+    }
 }
