@@ -104,7 +104,6 @@ class Main extends PluginBase implements Listener {
         "boots: /slapper edit <eid> boots <id>",
         "skin: /slapper edit <eid> skin",
         "name: /slapper edit <eid> name <name>",
-        "namevisibility: /slapper edit <eid> namevisibility <never/hover/always>",
         "addcommand: /slapper edit <eid> addcommand <command>",
         "delcommand: /slapper edit <eid> delcommand <command>",
         "listcommands: /slapper edit <eid> listcommands",
@@ -377,51 +376,6 @@ class Main extends PluginBase implements Listener {
                                                         }
                                                         return true;
                                                         break;
-                                                    case "namevisibility":
-                                                    case "namevisible":
-                                                    case "customnamevisible":
-                                                    case "tagvisible":
-                                                    case "name_visible":
-                                                        if (isset($args[2])) {
-                                                            switch (strtolower($args[2])) {
-                                                                case "a":
-                                                                case "always":
-                                                                case "1":
-                                                                    $entity->setNameTagVisible(true);
-                                                                    $entity->setNameTagAlwaysVisible(true);
-                                                                    $entity->sendData($entity->getViewers());
-                                                                    $sender->sendMessage($this->prefix . "Name visibility has been updated.");
-                                                                    return true;
-                                                                    break;
-                                                                case "h":
-                                                                case "hover":
-                                                                case "lookingat":
-                                                                case "onhover":
-                                                                    $entity->setNameTagVisible(true);
-                                                                    $entity->setNameTagAlwaysVisible(false);
-                                                                    $entity->sendData($entity->getViewers());
-                                                                    $sender->sendMessage($this->prefix . "Name visibility has been updated.");
-                                                                    return true;
-                                                                    break;
-                                                                case "n":
-                                                                case "never":
-                                                                case "no":
-                                                                case "0":
-                                                                    $entity->setNameTagVisible(false);
-                                                                    $entity->setNameTagAlwaysVisible(false);
-                                                                    $entity->sendData($entity->getViewers());
-                                                                    $sender->sendMessage($this->prefix . "Name visibility has been updated.");
-                                                                    return true;
-                                                                    break;
-                                                                default:
-                                                                    $sender->sendMessage($this->prefix . "Please enter a value, \"always\", \"hover\", or \"never\".");
-                                                                    return true;
-                                                                    break;
-                                                            }
-                                                        } else {
-                                                            $sender->sendMessage($this->prefix . "Please enter a value, \"always\", \"hover\", or \"never\".");
-                                                        }
-                                                        return true;
                                                     case "addc":
                                                     case "addcmd":
                                                     case "addcommand":
@@ -601,8 +555,6 @@ class Main extends PluginBase implements Listener {
                             $nbt = $this->makeNBT($chosenType, $sender, $name);
                             /** @var SlapperEntity $entity */
                             $entity = Entity::createEntity("Slapper" . $chosenType, $sender->getLevel(), $nbt);
-                            $entity->setNameTagVisible(true);
-                            $entity->setNameTagAlwaysVisible(true);
                             $this->getServer()->getPluginManager()->callEvent(new SlapperCreationEvent($entity, "Slapper" . $chosenType, $sender, SlapperCreationEvent::CAUSE_COMMAND));
                             $entity->spawnToAll();
                             $sender->sendMessage($this->prefix . $chosenType . " entity spawned with name " . TextFormat::WHITE . "\"" . TextFormat::BLUE . $name . TextFormat::WHITE . "\"" . TextFormat::GREEN . " and entity ID " . TextFormat::BLUE . $entity->getId());
