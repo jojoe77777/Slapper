@@ -24,27 +24,28 @@ permissions:
   slapper:
     description: Allow using all Slapper commands
     default: op
-  slapper.command:
-    description: Allow using /slapper
-    default: op
-  slapper.create:
-    description: Allow using command /slapper create
-    default: op
-  slapper.edit:
-    description: Allow editing Slapper entity data with /slapper edit
-    default: op
-  slapper.nothing:
-    description: Allow doing nothing
-    default: op
-  slapper.rca:
-    description: Allow running commands as other players
-    default: op
-  slapper.remove:
-    description: Allow removing Slapper entities with /slapper remove [id]
-    default: op
-  slapper.id:
-    description: Allow viewing entity ID
-    default: op
-  slapper.help:
-    description: Allow viewing Slapper help page
-    default: op
+    children:
+      slapper.command:
+        description: Allow using /slapper
+        default: op
+      slapper.create:
+        description: Allow using command /slapper create
+        default: op
+      slapper.edit:
+        description: Allow editing Slapper entity data with /slapper edit
+        default: op
+      slapper.nothing:
+        description: Allow doing nothing
+        default: op
+      slapper.rca:
+        description: Allow running commands as other players
+        default: op
+      slapper.remove:
+        description: Allow removing Slapper entities with /slapper remove [id]
+        default: op
+      slapper.id:
+        description: Allow viewing entity ID
+        default: op
+      slapper.help:
+        description: Allow viewing Slapper help page
+        default: op
