@@ -64,21 +64,21 @@ class SlapperEntity extends Entity {
         $player->dataPacket($pk2);
     }
 
-    public function sendNameTag(Player $player) {
+    public function sendNameTag(Player $player): void {
         $pk = new SetEntityDataPacket();
         $pk->entityRuntimeId = $this->tagId;
         $pk->metadata = [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]];
         $player->dataPacket($pk);
     }
 
-    public function despawnFrom(Player $player, bool $send = true) {
+    public function despawnFrom(Player $player, bool $send = true): void {
         parent::despawnFrom($player, $send);
         $pk = new RemoveEntityPacket();
         $pk->entityUniqueId = $this->tagId;
         $player->dataPacket($pk);
     }
 
-    public function broadcastMovement(bool $teleport = false) {
+    public function broadcastMovement(bool $teleport = false): void {
         if($this->chunk !== null) {
             parent::broadcastMovement($teleport);
             $pk = new MoveEntityPacket();

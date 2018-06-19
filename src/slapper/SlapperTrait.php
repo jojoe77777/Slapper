@@ -27,11 +27,11 @@ trait SlapperTrait {
     /**
      * @return string
      */
-    abstract public function getNameTag();
+    abstract public function getNameTag(): string;
 
-    abstract public function sendNameTag(Player $player);
+    abstract public function sendNameTag(Player $player): void;
 
-    abstract public function setGenericFlag(int $flag, bool $value = true);
+    abstract public function setGenericFlag(int $flag, bool $value = true): void;
 
     public function prepareMetadata(): void {
         $this->setGenericFlag(Entity::DATA_FLAG_IMMOBILE, true);
@@ -41,11 +41,11 @@ trait SlapperTrait {
         $this->getDataPropertyManager()->setFloat(Entity::DATA_SCALE, $this->namedtag->getFloat("Scale"));
     }
 
-    public function tryChangeMovement(){
+    public function tryChangeMovement(): void {
 
     }
 
-    public function sendData($playerList, array $data = null) {
+    public function sendData($playerList, array $data = null): void {
         if(!is_array($playerList)){
             $playerList = [$playerList];
         }

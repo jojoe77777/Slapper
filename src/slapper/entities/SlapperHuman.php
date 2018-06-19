@@ -24,7 +24,7 @@ class SlapperHuman extends Human {
         $this->saveSlapperNbt();
     }
 
-    public function sendNameTag(Player $player) {
+    public function sendNameTag(Player $player): void {
         $pk = new SetEntityDataPacket();
         $pk->entityRuntimeId = $this->getId();
         $pk->metadata = [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]];
