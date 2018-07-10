@@ -11,7 +11,7 @@ use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
-use pocketmine\network\mcpe\protocol\MoveEntityPacket;
+use pocketmine\network\mcpe\protocol\MoveEntityAbsolutePacket;
 use pocketmine\network\mcpe\protocol\RemoveEntityPacket;
 use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
 use pocketmine\Player;
@@ -81,7 +81,7 @@ class SlapperEntity extends Entity {
     public function broadcastMovement(bool $teleport = false): void {
         if($this->chunk !== null) {
             parent::broadcastMovement($teleport);
-            $pk = new MoveEntityPacket();
+            $pk = new MoveEntityAbsolutePacket();
             $pk->entityRuntimeId = $this->tagId;
             $pk->position = $this->asVector3()->add(0, static::HEIGHT + 1.62);
             $pk->yaw = $pk->pitch = $pk->headYaw = 0;
