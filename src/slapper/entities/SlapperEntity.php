@@ -11,7 +11,7 @@ use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\AddEntityPacket;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
-use pocketmine\network\mcpe\protocol\MoveEntityPacket;
+use pocketmine\network\mcpe\protocol\MoveEntityAbsolutePacket;
 use pocketmine\network\mcpe\protocol\RemoveEntityPacket;
 use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
 use pocketmine\Player;
@@ -32,16 +32,17 @@ class SlapperEntity extends Entity {
         $this->width = $this->width ?? 1; //polyfill
         $this->tagId = Entity::$entityCount++;
         parent::__construct($level, $nbt);
-        $this->prepareMetadata();
+        $this->prepareMetadata($nbt);
         $this->setNameTagVisible(false);
     }
 
-    public function saveNBT(): void {
-        parent::saveNBT();
-        $this->saveSlapperNbt();
+    public function saveNBT() : CompoundTag{
+	    $nbt = parent::saveNBT();
+	    $this->saveSlapperNbt($nbt);
+	    return $nbt;
     }
 
-    protected function sendSpawnPacket(Player $player): void {
+	protected function sendSpawnPacket(Player $player): void {
         $pk = new AddEntityPacket();
         $pk->entityRuntimeId = $this->getId();
         $pk->type = static::TYPE_ID;
@@ -51,7 +52,7 @@ class SlapperEntity extends Entity {
         $pk->metadata = $this->getDataPropertyManager()->getAll();
         unset($pk->metadata[self::DATA_NAMETAG]);
 
-        $player->dataPacket($pk);
+        $player->sendDataPacket($pk);
 
         $pk2 = new AddPlayerPacket();
         $pk2->entityRuntimeId = $this->tagId;
@@ -61,27 +62,27 @@ class SlapperEntity extends Entity {
         $pk2->item = ItemFactory::get(ItemIds::AIR);
         $pk2->metadata = [self::DATA_SCALE => [self::DATA_TYPE_FLOAT, 0.0]];
 
-        $player->dataPacket($pk2);
+        $player->sendDataPacket($pk2);
     }
 
     public function sendNameTag(Player $player): void {
         $pk = new SetEntityDataPacket();
         $pk->entityRuntimeId = $this->tagId;
         $pk->metadata = [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]];
-        $player->dataPacket($pk);
+        $player->sendDataPacket($pk);
     }
 
     public function despawnFrom(Player $player, bool $send = true): void {
         parent::despawnFrom($player, $send);
         $pk = new RemoveEntityPacket();
         $pk->entityUniqueId = $this->tagId;
-        $player->dataPacket($pk);
+        $player->sendDataPacket($pk);
     }
 
     public function broadcastMovement(bool $teleport = false): void {
         if($this->chunk !== null) {
             parent::broadcastMovement($teleport);
-            $pk = new MoveEntityPacket();
+            $pk = new MoveEntityAbsolutePacket();
             $pk->entityRuntimeId = $this->tagId;
             $pk->position = $this->asVector3()->add(0, static::HEIGHT + 1.62);
             $pk->yaw = $pk->pitch = $pk->headYaw = 0;

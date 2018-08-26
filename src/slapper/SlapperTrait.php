@@ -16,8 +16,8 @@ use pocketmine\Player;
  * Trait containing methods used in various Slappers.
  */
 trait SlapperTrait {
-    /** @var CompoundTag */
-    public $namedtag;
+	/** @var CompoundTag */
+    public $additionalNbt;
 
     /**
      * @return DataPropertyManager
@@ -33,12 +33,12 @@ trait SlapperTrait {
 
     abstract public function setGenericFlag(int $flag, bool $value = true): void;
 
-    public function prepareMetadata(): void {
+    public function prepareMetadata(CompoundTag $nbt): void {
         $this->setGenericFlag(Entity::DATA_FLAG_IMMOBILE, true);
-        if (!$this->namedtag->hasTag("Scale", FloatTag::class)) {
-            $this->namedtag->setFloat("Scale", 1.0, true);
+        if (!$nbt->hasTag("Scale", FloatTag::class)) {
+            $nbt->setFloat("Scale", 1.0, true);
         }
-        $this->getDataPropertyManager()->setFloat(Entity::DATA_SCALE, $this->namedtag->getFloat("Scale"));
+        $this->getDataPropertyManager()->setFloat(Entity::DATA_SCALE, $nbt->getFloat("Scale"));
     }
 
     public function tryChangeMovement(): void {
@@ -50,19 +50,20 @@ trait SlapperTrait {
             $playerList = [$playerList];
         }
 
-        foreach($playerList as $p){
+        /** @var Player $p */
+	    foreach($playerList as $p){
             $playerData = $data ?? $this->getDataPropertyManager()->getAll();
             unset($playerData[self::DATA_NAMETAG]);
             $pk = new SetEntityDataPacket();
             $pk->entityRuntimeId = $this->getId();
             $pk->metadata = $playerData;
-            $p->dataPacket($pk);
+            $p->sendDataPacket($pk);
 
             $this->sendNameTag($p);
         }
     }
 
-    public function saveSlapperNbt(): void {
+    public function saveSlapperNbt(CompoundTag $nbt): CompoundTag {
         $visibility = 0;
         if ($this->isNameTagVisible()) {
             $visibility = 1;
@@ -71,8 +72,14 @@ trait SlapperTrait {
             }
         }
         $scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
-        $this->namedtag->setInt("NameVisibility", $visibility, true);
-        $this->namedtag->setFloat("Scale", $scale, true);
+        $nbt->setInt("NameVisibility", $visibility, true);
+        $nbt->setFloat("Scale", $scale, true);
+
+        foreach($this->additionalNbt as $n => $item){
+        	$nbt->setTag($item, true);
+        }
+
+        return $nbt;
     }
 
     public function getDisplayName(Player $player): string {

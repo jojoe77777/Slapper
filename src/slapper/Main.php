@@ -153,7 +153,7 @@ class Main extends PluginBase implements Listener {
      *
      * @return bool
      */
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool{
         switch (strtolower($command->getName())) {
             case "nothing":
                 return true;
@@ -361,9 +361,9 @@ class Main extends PluginBase implements Listener {
                                                                     $type = 1;
                                                             }
                                                             if ($type === 0) {
-                                                                $entity->namedtag->setString("MenuName", $input);
+                                                                $entity->additionalNbt->setString("MenuName", $input);
                                                             } else {
-                                                                $entity->namedtag->setString("MenuName", "");
+                                                                $entity->additionalNbt->setString("MenuName", "");
                                                             }
                                                             $entity->respawnToAll();
                                                             $sender->sendMessage($this->prefix . "Menu name updated.");
@@ -384,14 +384,14 @@ class Main extends PluginBase implements Listener {
                                                         array_shift($args);
                                                         $input = trim(implode(" ", $args));
 
-                                                        $commands = $entity->namedtag->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+                                                        $commands = $entity->additionalNbt->getCompoundTag("Commands") ?? new CompoundTag("Commands");
 
                                                         if ($commands->hasTag($input)) {
                                                             $sender->sendMessage($this->prefix . "That command has already been added.");
                                                             return true;
                                                         }
                                                         $commands->setString($input, $input);
-                                                        $entity->namedtag->setTag($commands); //in case a new CompoundTag was created
+                                                        $entity->additionalNbt->setTag($commands); //in case a new CompoundTag was created
                                                         $sender->sendMessage($this->prefix . "Command added.");
                                                     } else {
                                                         $sender->sendMessage($this->prefix . "Please enter a command.");
@@ -406,10 +406,10 @@ class Main extends PluginBase implements Listener {
                                                         array_shift($args);
                                                         $input = trim(implode(" ", $args));
 
-                                                        $commands = $entity->namedtag->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+                                                        $commands = $entity->additionalNbt->getCompoundTag("Commands") ?? new CompoundTag("Commands");
 
                                                         $commands->removeTag($input);
-                                                        $entity->namedtag->setTag($commands); //in case a new CompoundTag was created
+                                                        $entity->additionalNbt->setTag($commands); //in case a new CompoundTag was created
                                                         $sender->sendMessage($this->prefix . "Command removed.");
                                                     } else {
                                                         $sender->sendMessage($this->prefix . "Please enter a command.");
@@ -418,7 +418,7 @@ class Main extends PluginBase implements Listener {
                                                 case "listcommands":
                                                 case "listcmds":
                                                 case "listcs":
-                                                    $commands = $entity->namedtag->getCompoundTag("Commands");
+                                                    $commands = $entity->additionalNbt->getCompoundTag("Commands");
                                                     if ($commands !== null and $commands->getCount() > 0) {
                                                         $id = 0;
 
@@ -505,7 +505,6 @@ class Main extends PluginBase implements Listener {
                                 }
                                 return true;
                             }
-                            return true;
                             break;
                         case "help":
                         case "?":
@@ -587,13 +586,13 @@ class Main extends PluginBase implements Listener {
         $nbt->setString("CustomName", $name);
         $nbt->setString("SlapperVersion", $this->getDescription()->getVersion());
         if ($type === "Human") {
-            $player->saveNBT();
+            $pnbt = $player->saveNBT();
 
-            $inventoryTag = $player->namedtag->getListTag("Inventory");
+            $inventoryTag = $pnbt->getListTag("Inventory");
             assert($inventoryTag !== null);
             $nbt->setTag(clone $inventoryTag);
 
-            $skinTag = $player->namedtag->getCompoundTag("Skin");
+            $skinTag = $pnbt->getCompoundTag("Skin");
             assert($skinTag !== null);
             $nbt->setTag(clone $skinTag);
         }
@@ -638,7 +637,7 @@ class Main extends PluginBase implements Listener {
                 return;
             }
 
-            if (($commands = $entity->namedtag->getCompoundTag("Commands")) !== null) {
+            if (($commands = $entity->additionalNbt->getCompoundTag("Commands")) !== null) {
                 $server = $this->getServer();
                 /** @var StringTag $stringTag */
                 foreach ($commands as $stringTag) {

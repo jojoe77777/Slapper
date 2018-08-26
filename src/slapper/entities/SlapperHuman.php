@@ -16,25 +16,26 @@ class SlapperHuman extends Human {
 
     public function __construct(Level $level, CompoundTag $nbt) {
         parent::__construct($level, $nbt);
-        $this->prepareMetadata();
+        $this->prepareMetadata($nbt);
     }
 
-    public function saveNBT(): void {
-        parent::saveNBT();
-        $this->saveSlapperNbt();
+    public function saveNBT(): CompoundTag {
+        $nbt = parent::saveNBT();
+        $this->saveSlapperNbt($nbt);
+        return $nbt;
     }
 
     public function sendNameTag(Player $player): void {
         $pk = new SetEntityDataPacket();
         $pk->entityRuntimeId = $this->getId();
         $pk->metadata = [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]];
-        $player->dataPacket($pk);
+        $player->sendDataPacket($pk);
     }
 
     protected function sendSpawnPacket(Player $player): void {
         parent::sendSpawnPacket($player);
 
-        if (($menuName = $this->namedtag->getString("MenuName", "", true)) !== "") {
+        if (($menuName = $this->saveNBT()->getString("MenuName", "", true)) !== "") {
             $player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, "", [$player]);
         }
     }
