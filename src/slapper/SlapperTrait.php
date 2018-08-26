@@ -34,6 +34,7 @@ trait SlapperTrait {
     abstract public function setGenericFlag(int $flag, bool $value = true): void;
 
     public function prepareMetadata(CompoundTag $nbt): void {
+    	$this->additionalNbt = new CompoundTag();
         $this->setGenericFlag(Entity::DATA_FLAG_IMMOBILE, true);
         if (!$nbt->hasTag("Scale", FloatTag::class)) {
             $nbt->setFloat("Scale", 1.0, true);

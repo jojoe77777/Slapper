@@ -384,7 +384,7 @@ class Main extends PluginBase implements Listener {
                                                         array_shift($args);
                                                         $input = trim(implode(" ", $args));
 
-                                                        $commands = $entity->additionalNbt->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+                                                        $commands = $entity->saveNBT()->getCompoundTag("Commands") ?? new CompoundTag("Commands");
 
                                                         if ($commands->hasTag($input)) {
                                                             $sender->sendMessage($this->prefix . "That command has already been added.");
@@ -406,7 +406,7 @@ class Main extends PluginBase implements Listener {
                                                         array_shift($args);
                                                         $input = trim(implode(" ", $args));
 
-                                                        $commands = $entity->additionalNbt->getCompoundTag("Commands") ?? new CompoundTag("Commands");
+                                                        $commands = $entity->saveNBT()->getCompoundTag("Commands") ?? new CompoundTag("Commands");
 
                                                         $commands->removeTag($input);
                                                         $entity->additionalNbt->setTag($commands); //in case a new CompoundTag was created
@@ -418,7 +418,7 @@ class Main extends PluginBase implements Listener {
                                                 case "listcommands":
                                                 case "listcmds":
                                                 case "listcs":
-                                                    $commands = $entity->additionalNbt->getCompoundTag("Commands");
+                                                    $commands = $entity->saveNBT()->getCompoundTag("Commands");
                                                     if ($commands !== null and $commands->getCount() > 0) {
                                                         $id = 0;
 
@@ -637,7 +637,7 @@ class Main extends PluginBase implements Listener {
                 return;
             }
 
-            if (($commands = $entity->additionalNbt->getCompoundTag("Commands")) !== null) {
+            if (($commands = $entity->saveNBT()->getCompoundTag("Commands")) !== null) {
                 $server = $this->getServer();
                 /** @var StringTag $stringTag */
                 foreach ($commands as $stringTag) {
