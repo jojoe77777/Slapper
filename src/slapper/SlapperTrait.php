@@ -34,7 +34,11 @@ trait SlapperTrait {
     abstract public function setGenericFlag(int $flag, bool $value = true): void;
 
     public function prepareMetadata(CompoundTag $nbt): void {
-    	$this->additionalNbt = new CompoundTag();
+    	if($nbt->hasTag("additionalNbt", CompoundTag::class)){
+    		$this->additionalNbt = $nbt->getCompoundTag("additionalNbt");
+	    }else{
+    		$this->additionalNbt = new CompoundTag("additionalNbt");
+	    }
         $this->setGenericFlag(Entity::DATA_FLAG_IMMOBILE, true);
         if (!$nbt->hasTag("Scale", FloatTag::class)) {
             $nbt->setFloat("Scale", 1.0, true);
@@ -64,7 +68,7 @@ trait SlapperTrait {
         }
     }
 
-    public function saveSlapperNbt(CompoundTag $nbt): CompoundTag {
+    public function saveSlapperNbt(CompoundTag $nbt): void {
         $visibility = 0;
         if ($this->isNameTagVisible()) {
             $visibility = 1;
@@ -75,12 +79,7 @@ trait SlapperTrait {
         $scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
         $nbt->setInt("NameVisibility", $visibility, true);
         $nbt->setFloat("Scale", $scale, true);
-
-        foreach($this->additionalNbt as $n => $item){
-        	$nbt->setTag($item, true);
-        }
-
-        return $nbt;
+        $nbt->setTag($this->additionalNbt, true);
     }
 
     public function getDisplayName(Player $player): string {

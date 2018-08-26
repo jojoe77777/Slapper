@@ -19,7 +19,7 @@ class SlapperHuman extends Human {
         $this->prepareMetadata($nbt);
     }
 
-    public function saveNBT(): CompoundTag {
+	public function saveNBT(): CompoundTag {
         $nbt = parent::saveNBT();
         $this->saveSlapperNbt($nbt);
         return $nbt;
@@ -35,7 +35,7 @@ class SlapperHuman extends Human {
     protected function sendSpawnPacket(Player $player): void {
         parent::sendSpawnPacket($player);
 
-        if (($menuName = $this->saveNBT()->getString("MenuName", "", true)) !== "") {
+        if (($menuName = $this->additionalNbt->getString("MenuName", "", true)) !== "") {
             $player->getServer()->updatePlayerListData($this->getUniqueId(), $this->getId(), $menuName, $this->skin, "", [$player]);
         }
     }
