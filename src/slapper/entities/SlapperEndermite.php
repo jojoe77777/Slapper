@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace slapper\entities;
 
-class SlapperEndermite extends SlapperEntity {
+class SlapperEndermite extends SlapperEntity{
 
-    const TYPE_ID = 55;
-    const HEIGHT = 0.3;
+	const TYPE_ID = 55;
+	const HEIGHT = 0.3;
 
 }
