@@ -8,6 +8,7 @@ use pocketmine\entity\DataPropertyManager;
 use pocketmine\entity\Entity;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
 use pocketmine\Player;
@@ -16,8 +17,9 @@ use pocketmine\Player;
  * Trait containing methods used in various Slappers.
  */
 trait SlapperTrait {
-	/** @var CompoundTag */
-    public $additionalNbt;
+
+	/** @var string[] */
+    protected $commands = [];
 
     /**
      * @return DataPropertyManager
@@ -34,16 +36,21 @@ trait SlapperTrait {
     abstract public function setGenericFlag(int $flag, bool $value = true): void;
 
     public function prepareMetadata(CompoundTag $nbt): void {
-    	if($nbt->hasTag("additionalNbt", CompoundTag::class)){
-    		$this->additionalNbt = $nbt->getCompoundTag("additionalNbt");
-	    }else{
-    		$this->additionalNbt = new CompoundTag("additionalNbt");
-	    }
-        $this->setGenericFlag(Entity::DATA_FLAG_IMMOBILE, true);
+        $this->setImmobile(true);
+
+        if($nbt->hasTag("Commands", CompoundTag::class)){
+        	foreach($nbt->getCompoundTag("Commands")->getValue() as $tag){
+        		if($tag instanceof StringTag){
+        			$this->addCommand($tag->getValue());
+		        }
+	        }
+        }
+
         if (!$nbt->hasTag("Scale", FloatTag::class)) {
             $nbt->setFloat("Scale", 1.0, true);
         }
-        $this->getDataPropertyManager()->setFloat(Entity::DATA_SCALE, $nbt->getFloat("Scale"));
+
+        $this->setScale($nbt->getFloat("Scale"));
     }
 
     public function tryChangeMovement(): void {
@@ -79,7 +86,14 @@ trait SlapperTrait {
         $scale = $this->getDataPropertyManager()->getFloat(Entity::DATA_SCALE);
         $nbt->setInt("NameVisibility", $visibility, true);
         $nbt->setFloat("Scale", $scale, true);
-        $nbt->setTag($this->additionalNbt, true);
+
+        $cmdNbt = new CompoundTag("Commands");
+
+        foreach($this->commands as $cmd){
+        	$cmdNbt->setString($cmd, $cmd);
+        }
+
+        $nbt->setTag($cmdNbt);
     }
 
     public function getDisplayName(Player $player): string {
@@ -90,4 +104,34 @@ trait SlapperTrait {
         ];
         return str_replace(array_keys($vars), array_values($vars), $this->getNameTag());
     }
+
+	/**
+	 * @param string $cmd
+	 */
+	public function addCommand(string $cmd) : void{
+    	$this->commands[$cmd] = $cmd;
+    }
+
+	/**
+	 * @param string $cmd
+	 */
+	public function removeCommand(string $cmd) : void{
+    	unset($this->commands[$cmd]);
+    }
+
+	/**
+	 * @param string $cmd
+	 *
+	 * @return bool
+	 */
+	public function hasCommand(string $cmd) : bool{
+		return isset($this->commands[$cmd]);
+    }
+
+	/**
+	 * @return string[]
+	 */
+	public function getCommands() : array{
+		return $this->commands;
+	}
 }
