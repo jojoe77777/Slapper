@@ -7,10 +7,10 @@ namespace slapper\events;
 use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityEvent;
 
-class SlapperDeletionEvent extends EntityEvent {
+class SlapperDeletionEvent extends EntityEvent{
 
-    public function __construct(Entity $entity) {
-        $this->entity = $entity;
-    }
+	public function __construct(Entity $entity){
+		$this->entity = $entity;
+	}
 
 }

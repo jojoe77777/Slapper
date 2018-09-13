@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace slapper\entities;
 
-class SlapperElderGuardian extends SlapperEntity {
+use pocketmine\nbt\tag\CompoundTag;
 
-    const TYPE_ID = 50;
-    const HEIGHT = 1.9975;
+class SlapperElderGuardian extends SlapperEntity{
 
-    public function prepareMetadata(): void {
-        $this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ELDER, true);
-        parent::prepareMetadata();
-    }
+	const TYPE_ID = 50;
+	const HEIGHT = 1.9975;
+
+	public function prepareMetadata(CompoundTag $nbt) : void{
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ELDER, true);
+		parent::prepareMetadata($nbt);
+	}
 
 }
