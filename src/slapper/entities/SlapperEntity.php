@@ -84,7 +84,7 @@ class SlapperEntity extends Entity {
             $pk = new MoveEntityAbsolutePacket();
             $pk->entityRuntimeId = $this->tagId;
             $pk->position = $this->asVector3()->add(0, static::HEIGHT + 1.62);
-            $pk->yaw = $pk->pitch = $pk->headYaw = 0;
+            $pk->xRot = $pk->yRot = $pk->zRot = 0;
 
             $this->level->addChunkPacket($this->chunk->getX(), $this->chunk->getZ(), $pk);
         }
