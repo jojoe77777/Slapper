@@ -57,12 +57,13 @@ class Main extends PluginBase implements Listener {
         "Horse", "Donkey", "Mule", "SkeletonHorse",
         "ZombieHorse", "Witch", "Rabbit", "Stray",
         "Husk", "WitherSkeleton", "IronGolem", "Snowman",
-        "MagmaCube", "Squid", "ElderGuardian", "Endermite",
+        "LavaSlime", "Squid", "ElderGuardian", "Endermite",
         "Evoker", "Guardian", "PolarBear", "Shulker",
         "Vex", "Vindicator", "Wither", "Llama"
     ];
 
     const ENTITY_ALIASES = [
+		"MagmaCube" => "LavaSlime",
         "ZombiePigman" => "PigZombie",
         "Mooshroom" => "MushroomCow",
         "Player" => "Human",
