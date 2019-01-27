@@ -663,4 +663,16 @@ class Main extends PluginBase implements Listener {
             }
         }
     }
+
+    /**
+     * @param EntityMotionEvent $event
+     *
+     * @return void
+     */
+    public function onEntityMotion(EntityMotionEvent $event): void {
+        $entity = $event->getEntity();
+        if ($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
+            $event->setCancelled(true);
+        }
+    }
 }
