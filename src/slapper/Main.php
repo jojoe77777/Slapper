@@ -338,7 +338,7 @@ class Main extends PluginBase implements Listener {
                                                     if (isset($args[2])) {
                                                         array_shift($args);
                                                         array_shift($args);
-                                                        $entity->setNameTag(trim(implode(" ", $args)));
+                                                        $entity->setNameTag(str_replace(["{color}", "{line}"], ["§", "\n"], trim(implode(" ", $args))));
                                                         $entity->sendData($entity->getViewers());
                                                         $sender->sendMessage($this->prefix . "Name updated.");
                                                     } else {
