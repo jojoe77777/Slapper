@@ -46,7 +46,7 @@ class SlapperEntity extends Entity {
         $pk->entityRuntimeId = $this->getId();
         $pk->type = static::TYPE_ID;
         $pk->position = $this->asVector3();
-        $pk->yaw = $this->yaw;
+        $pk->yaw = $pk->headYaw = $this->yaw;
         $pk->pitch = $this->pitch;
         $pk->metadata = $this->getDataPropertyManager()->getAll();
         unset($pk->metadata[self::DATA_NAMETAG]);
