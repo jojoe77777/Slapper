@@ -7,7 +7,7 @@ namespace slapper\entities;
 use pocketmine\entity\Human;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\protocol\SetEntityDataPacket;
+use pocketmine\network\mcpe\protocol\SetActorDataPacket as SetEntityDataPacket;
 use pocketmine\Player;
 use slapper\SlapperTrait;
 
