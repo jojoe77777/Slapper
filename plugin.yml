@@ -1,5 +1,5 @@
 name: Slapper
-author: jojoe77777
+author: [jojoe77777, dktapps]
 version: 1.5.0
 description: Slapper, the NPC plugin for PocketMine-MP
 main: slapper\Main
