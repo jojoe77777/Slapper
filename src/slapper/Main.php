@@ -159,7 +159,6 @@ class Main extends PluginBase implements Listener {
         switch (strtolower($command->getName())) {
             case "nothing":
                 return true;
-                break;
             case "rca":
                 if (count($args) < 2) {
                     $sender->sendMessage($this->prefix . "Please enter a player and a command.");
@@ -173,7 +172,6 @@ class Main extends PluginBase implements Listener {
                     $sender->sendMessage($this->prefix . "Player not found.");
                     return true;
                 }
-                break;
             case "slapper":
                 if ($sender instanceof Player) {
                     if (!isset($args[0])) {
@@ -210,7 +208,6 @@ class Main extends PluginBase implements Listener {
                             unset($this->idSessions[$sender->getName()]);
                             $sender->sendMessage($this->prefix . "Cancelled.");
                             return true;
-                            break;
                         case "remove":
                             if (!$sender->hasPermission("slapper.remove")) {
                                 $sender->sendMessage($this->noperm);
@@ -377,7 +374,6 @@ class Main extends PluginBase implements Listener {
                                                         $sender->sendMessage($this->prefix . "That entity can not have a menu name.");
                                                     }
                                                     return true;
-                                                    break;
                                                 case "addc":
                                                 case "addcmd":
                                                 case "addcommand":
@@ -451,7 +447,6 @@ class Main extends PluginBase implements Listener {
                                                         $sender->sendMessage($this->prefix . "Please enter a value.");
                                                     }
                                                     return true;
-                                                    break;
                                                 case "teleporthere":
                                                 case "tphere":
                                                 case "movehere":
@@ -460,7 +455,6 @@ class Main extends PluginBase implements Listener {
                                                     $sender->sendMessage($this->prefix . "Teleported entity to you.");
                                                     $entity->respawnToAll();
                                                     return true;
-                                                    break;
                                                 case "teleportto":
                                                 case "tpto":
                                                 case "goto":
@@ -469,7 +463,6 @@ class Main extends PluginBase implements Listener {
                                                     $sender->teleport($entity);
                                                     $sender->sendMessage($this->prefix . "Teleported you to entity.");
                                                     return true;
-                                                    break;
                                                 case "scale":
                                                 case "size":
                                                     if (isset($args[2])) {
@@ -481,7 +474,6 @@ class Main extends PluginBase implements Listener {
                                                         $sender->sendMessage($this->prefix . "Please enter a value.");
                                                     }
                                                     return true;
-                                                    break;
                                                 default:
                                                     $sender->sendMessage($this->prefix . "Unknown command.");
                                                     return true;
@@ -507,8 +499,6 @@ class Main extends PluginBase implements Listener {
                                 }
                                 return true;
                             }
-                            return true;
-                            break;
                         case "help":
                         case "?":
                             $sender->sendMessage($this->helpHeader);
@@ -516,7 +506,6 @@ class Main extends PluginBase implements Listener {
                                 $sender->sendMessage(TextFormat::GREEN . " - " . $msgArg . "\n");
                             }
                             return true;
-                            break;
                         case "add":
                         case "make":
                         case "create":
