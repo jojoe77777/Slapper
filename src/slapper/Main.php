@@ -14,7 +14,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\Listener;
-use pocketmine\Item\Item;
+use pocketmine\item\Item;
 
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
