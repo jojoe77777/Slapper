@@ -44,7 +44,7 @@ class SlapperEntity extends Entity {
     protected function sendSpawnPacket(Player $player): void {
         $pk = new AddEntityPacket();
         $pk->entityRuntimeId = $this->getId();
-        $pk->type = static::TYPE_ID;
+        $pk->type = AddEntityPacket::LEGACY_ID_MAP_BC[static::TYPE_ID];
         $pk->position = $this->asVector3();
         $pk->yaw = $pk->headYaw = $this->yaw;
         $pk->pitch = $this->pitch;
