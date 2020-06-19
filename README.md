@@ -7,6 +7,7 @@ The new home of Slapper, the NPC plugin for PocketMine-MP.
 This plugin is designed for **[PocketMine-MP](https://github.com/pmmp/PocketMine-MP)** only and we do not support any other variations, forks or spoons.
 Compatibility with unofficial variants can occasionally be found, but **do not expect support if you are using anything other than PocketMine-MP**.
 
+**(If the slapper that have a (proper) command to excute but do not give a reaction after player tab, click or slap it. Please check if the world which contains the slapper have pvp disabled and enable it to make slapper works!)**
 ## Addons
 
 Official addons:
