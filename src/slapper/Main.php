@@ -339,7 +339,9 @@ class Main extends PluginBase implements Listener {
                                                         $entity->sendData($entity->getViewers());
                                                         $sender->sendMessage($this->prefix . "Name updated.");
                                                     } else {
-                                                        $sender->sendMessage($this->prefix . "Please enter a name.");
+                                                        $entity->setNameTag("");
+                                                        $entity->sendData($entity->getViewers());
+                                                        $sender->sendMessage($this->prefix . "Name updated.");
                                                     }
                                                     return true;
                                                 case "listname":
