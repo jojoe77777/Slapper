@@ -7,7 +7,7 @@ namespace slapper\entities;
 use pocketmine\entity\Human;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\mcpe\protocol\SetActorDataPacket as SetEntityDataPacket;
+use pocketmine\network\mcpe\protocol\SetActorDataPacket;
 use pocketmine\Player;
 use slapper\SlapperTrait;
 
@@ -25,7 +25,7 @@ class SlapperHuman extends Human {
     }
 
     public function sendNameTag(Player $player): void {
-        $pk = new SetEntityDataPacket();
+        $pk = new SetActorDataPacket();
         $pk->entityRuntimeId = $this->getId();
         $pk->metadata = [self::DATA_NAMETAG => [self::DATA_TYPE_STRING, $this->getDisplayName($player)]];
         $player->dataPacket($pk);
