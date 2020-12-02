@@ -642,6 +642,8 @@ class Main extends PluginBase implements Listener {
      *
 	 * @phpstan ignore
 	 *
+	 * @phpstan-ignore-next-line
+	 *
 	 * @noinspection ALL
 	 *
      * @return void
@@ -650,6 +652,7 @@ class Main extends PluginBase implements Listener {
         $entity = $ev->getEntity();
         if ($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
             $clearLagg = $this->getServer()->getPluginManager()->getPlugin("ClearLagg");
+            /** @phpstan-ignore-next-line */
             if ($clearLagg !== null && $clearLagg instanceof \ClearLagg\Loader) {
                 $clearLagg->exemptEntity($entity);
             }
