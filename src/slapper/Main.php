@@ -639,10 +639,6 @@ class Main extends PluginBase implements Listener {
 
     /**
      * @param EntitySpawnEvent $ev
-     *
-	 * @phpstan ignore
-	 *
-	 * @phpstan-ignore-next-line
 	 *
 	 * @noinspection ALL
 	 *
@@ -654,6 +650,7 @@ class Main extends PluginBase implements Listener {
             $clearLagg = $this->getServer()->getPluginManager()->getPlugin("ClearLagg");
             /** @phpstan-ignore-next-line */
             if ($clearLagg !== null && $clearLagg instanceof \ClearLagg\Loader) {
+				/** @phpstan-ignore-next-line */
                 $clearLagg->exemptEntity($entity);
             }
         }
