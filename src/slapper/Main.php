@@ -650,7 +650,7 @@ class Main extends PluginBase implements Listener {
             $clearLagg = $this->getServer()->getPluginManager()->getPlugin("ClearLagg");
             /** @phpstan-ignore-next-line */
             if ($clearLagg !== null && $clearLagg instanceof \ClearLagg\Loader) {
-				/** @phpstan-ignore-next-line */
+		/** @phpstan-ignore-next-line */
                 $clearLagg->exemptEntity($entity);
             }
         }
