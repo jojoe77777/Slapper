@@ -8,7 +8,6 @@ use pocketmine\entity\DataPropertyManager;
 use pocketmine\entity\Entity;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\IntTag;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket as SetEntityDataPacket;
 use pocketmine\Player;
 
@@ -16,7 +15,8 @@ use pocketmine\Player;
  * Trait containing methods used in various Slappers.
  */
 trait SlapperTrait {
-    /** @var CompoundTag */
+
+    /** @var CompoundTag $namedtag */
     public $namedtag;
 
     /**

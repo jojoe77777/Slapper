@@ -11,7 +11,7 @@ use pocketmine\Player;
 
 class SlapperHitEvent extends EntityEvent implements Cancellable {
 
-    /** @var Player */
+    /** @var Player $damager */
     private $damager;
 
     public function __construct(Entity $entity, Player $damager) {
