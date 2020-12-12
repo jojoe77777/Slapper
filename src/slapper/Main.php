@@ -22,22 +22,10 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 
+use slapper\entities\SlapperEntity;
+use slapper\entities\SlapperHuman;
 use slapper\entities\other\{
-    SlapperBoat, SlapperFallingSand, SlapperMinecart, SlapperPrimedTNT
-};
-use slapper\entities\{
-    SlapperBat, SlapperBlaze, SlapperCaveSpider, SlapperChicken,
-    SlapperCow, SlapperCreeper, SlapperDonkey, SlapperElderGuardian,
-    SlapperEnderman, SlapperEndermite, SlapperEntity, SlapperEvoker,
-    SlapperGhast, SlapperGuardian, SlapperHorse, SlapperHuman,
-    SlapperHusk, SlapperIronGolem, SlapperLavaSlime, SlapperLlama,
-    SlapperMule, SlapperMushroomCow, SlapperOcelot, SlapperPig,
-    SlapperPigZombie, SlapperPolarBear, SlapperRabbit, SlapperSheep,
-    SlapperShulker, SlapperSilverfish, SlapperSkeleton, SlapperSkeletonHorse,
-    SlapperSlime, SlapperSnowman, SlapperSpider, SlapperSquid,
-    SlapperStray, SlapperVex, SlapperVillager, SlapperVindicator,
-    SlapperWitch, SlapperWither, SlapperWitherSkeleton, SlapperWolf,
-    SlapperZombie, SlapperZombieHorse, SlapperZombieVillager
+    SlapperFallingSand
 };
 
 use slapper\events\SlapperCreationEvent;
@@ -91,9 +79,10 @@ class Main extends PluginBase implements Listener {
         TextFormat::GREEN . "[" . TextFormat::YELLOW . "Slapper Help" . TextFormat::GREEN . "] " .
         TextFormat::YELLOW . "----------";
 
-    /** @var string[] */
+    /** @var string[] $mainArgs */
     public $mainArgs = [
         "help: /slapper help",
+		/** @lang text */
         "spawn: /slapper spawn <type> [name]",
         "edit: /slapper edit [id] [args...]",
         "id: /slapper id",
@@ -101,21 +90,37 @@ class Main extends PluginBase implements Listener {
         "version: /slapper version",
         "cancel: /slapper cancel",
     ];
-    /** @var string[] */
+    /**
+	 * @var string[] $editArgs
+	 */
     public $editArgs = [
+		/** @lang text */
         "helmet: /slapper edit <eid> helmet <id>",
+		/** @lang text */
         "chestplate: /slapper edit <eid> chestplate <id>",
+		/** @lang text */
         "leggings: /slapper edit <eid> leggings <id>",
+		/** @lang text */
         "boots: /slapper edit <eid> boots <id>",
+		/** @lang text */
         "skin: /slapper edit <eid> skin",
+		/** @lang text */
         "name: /slapper edit <eid> name <name>",
+		/** @lang text */
         "addcommand: /slapper edit <eid> addcommand <command>",
-        "delcommand: /slapper edit <eid> delcommand <command>",
+        /** @lang text */
+		"delcommand: /slapper edit <eid> delcommand <command>",
+		/** @lang text */
         "listcommands: /slapper edit <eid> listcommands",
+		/** @lang text */
         "blockid: /slapper edit <eid> block <id[:meta]>",
+		/** @lang text */
         "scale: /slapper edit <eid> scale <size>",
+		/** @lang text */
         "tphere: /slapper edit <eid> tphere",
+		/** @lang text */
         "tpto: /slapper edit <eid> tpto",
+		/** @lang text */
         "menuname: /slapper edit <eid> menuname <name/remove>"
     ];
 
@@ -123,27 +128,16 @@ class Main extends PluginBase implements Listener {
      * @return void
      */
     public function onEnable(): void {
-        foreach ([
-                     SlapperCreeper::class, SlapperBat::class, SlapperSheep::class,
-                     SlapperPigZombie::class, SlapperGhast::class, SlapperBlaze::class,
-                     SlapperIronGolem::class, SlapperSnowman::class, SlapperOcelot::class,
-                     SlapperZombieVillager::class, SlapperHuman::class, SlapperCow::class,
-                     SlapperZombie::class, SlapperSquid::class, SlapperVillager::class,
-                     SlapperSpider::class, SlapperPig::class, SlapperMushroomCow::class,
-                     SlapperWolf::class, SlapperLavaSlime::class, SlapperSilverfish::class,
-                     SlapperSkeleton::class, SlapperSlime::class, SlapperChicken::class,
-                     SlapperEnderman::class, SlapperCaveSpider::class, SlapperBoat::class,
-                     SlapperMinecart::class, SlapperMule::class, SlapperWitch::class,
-                     SlapperPrimedTNT::class, SlapperHorse::class, SlapperDonkey::class,
-                     SlapperSkeletonHorse::class, SlapperZombieHorse::class, SlapperRabbit::class,
-                     SlapperStray::class, SlapperHusk::class, SlapperWitherSkeleton::class,
-                     SlapperFallingSand::class, SlapperElderGuardian::class, SlapperEndermite::class,
-                     SlapperEvoker::class, SlapperGuardian::class, SlapperLlama::class,
-                     SlapperPolarBear::class, SlapperShulker::class, SlapperVex::class,
-                     SlapperVindicator::class, SlapperWither::class
-                 ] as $className) {
-            Entity::registerEntity($className, true);
+    	//all the entities classified as a general SlapperEntity
+    	$entities = glob(__DIR__."/entities/*.php");
+    	//all the entities classified as other
+    	$other = glob(__DIR__."/entities/other/*.php");
+        foreach ($entities as $className) {
+            Entity::registerEntity("slapper\\entities\\".basename($className,".php"), true);
         }
+		foreach ($other as $className) {
+			Entity::registerEntity("slapper\\entities\\other\\".basename($className,".php"), true);
+		}
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
 
@@ -221,7 +215,8 @@ class Main extends PluginBase implements Listener {
                             $entity = $sender->getLevel()->getEntity((int) $args[0]);
                             if ($entity !== null) {
                                 if ($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
-                                    $this->getServer()->getPluginManager()->callEvent(new SlapperDeletionEvent($entity));
+                                    $event = new SlapperDeletionEvent($entity);
+                                    $event->call();
                                     $entity->close();
                                     $sender->sendMessage($this->prefix . "Entity removed.");
                                 } else {
@@ -436,6 +431,7 @@ class Main extends PluginBase implements Listener {
                                                     if (isset($args[2])) {
                                                         if ($entity instanceof SlapperFallingSand) {
                                                             $data = explode(":", $args[2]);
+                                                            //TODO: Can we somehow find a new way cause there has to be one
                                                             //haxx: we shouldn't use toStaticRuntimeId() because it's internal, but there isn't really any better option at the moment
                                                             $entity->getDataPropertyManager()->setInt(Entity::DATA_VARIANT, BlockFactory::toStaticRuntimeId((int) ($data[0] ?? 1), (int) ($data[1] ?? 0)));
                                                             $entity->sendData($entity->getViewers());
@@ -547,9 +543,10 @@ class Main extends PluginBase implements Listener {
                             $nbt = $this->makeNBT($chosenType, $sender, $name);
                             /** @var SlapperEntity $entity */
                             $entity = Entity::createEntity("Slapper" . $chosenType, $sender->getLevel(), $nbt);
-                            $this->getServer()->getPluginManager()->callEvent(new SlapperCreationEvent($entity, "Slapper" . $chosenType, $sender, SlapperCreationEvent::CAUSE_COMMAND));
-                            $entity->spawnToAll();
-                            $sender->sendMessage($this->prefix . $chosenType . " entity spawned with name " . TextFormat::WHITE . "\"" . TextFormat::BLUE . $name . TextFormat::WHITE . "\"" . TextFormat::GREEN . " and entity ID " . TextFormat::BLUE . $entity->getId());
+							$ev = new SlapperCreationEvent($entity, "Slapper" . $chosenType, $sender, SlapperCreationEvent::CAUSE_COMMAND);
+							$ev->call();
+							$entity->spawnToAll();
+							$sender->sendMessage($this->prefix . $chosenType . " entity spawned with name " . TextFormat::WHITE . "\"" . TextFormat::BLUE . $name . TextFormat::WHITE . "\"" . TextFormat::GREEN . " and entity ID " . TextFormat::BLUE . $entity->getId());
                             return true;
                         default:
                             $sender->sendMessage($this->prefix . "Unknown command. Type '/slapper help' for help.");
@@ -570,7 +567,7 @@ class Main extends PluginBase implements Listener {
      *
      * @return CompoundTag
      */
-    private function makeNBT($type, Player $player, string $name): CompoundTag {
+    private function makeNBT(string $type, Player $player, string $name): CompoundTag {
         $nbt = Entity::createBaseNBT($player, null, $player->getYaw(), $player->getPitch());
         $nbt->setShort("Health", 1);
         $nbt->setTag(new CompoundTag("Commands", []));
@@ -609,7 +606,8 @@ class Main extends PluginBase implements Listener {
             if (!$damager instanceof Player) {
                 return;
             }
-            $this->getServer()->getPluginManager()->callEvent($event = new SlapperHitEvent($entity, $damager));
+            $event = new SlapperHitEvent($entity, $damager);
+            $event->call();
             if ($event->isCancelled()) {
                 return;
             }
@@ -641,14 +639,18 @@ class Main extends PluginBase implements Listener {
 
     /**
      * @param EntitySpawnEvent $ev
-     *
+	 *
+	 * @noinspection ALL
+	 *
      * @return void
      */
     public function onEntitySpawn(EntitySpawnEvent $ev): void {
         $entity = $ev->getEntity();
         if ($entity instanceof SlapperEntity || $entity instanceof SlapperHuman) {
             $clearLagg = $this->getServer()->getPluginManager()->getPlugin("ClearLagg");
-            if ($clearLagg !== null) {
+            /** @phpstan-ignore-next-line */
+            if ($clearLagg !== null && $clearLagg instanceof \ClearLagg\Loader) {
+		/** @phpstan-ignore-next-line */
                 $clearLagg->exemptEntity($entity);
             }
         }
