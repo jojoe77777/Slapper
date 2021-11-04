@@ -10,11 +10,8 @@ Compatibility with unofficial variants can occasionally be found, but **do not e
 ## Addons
 
 Official addons:
-- [SlapBack](https://github.com/jojoe77777/SlapBack)
-- [SlapperRotation](https://github.com/jojoe77777/SlapperRotation)
-- [SlapperCache](https://github.com/jojoe77777/SlapperCache)
-- [SlapperPlus](https://github.com/jojoe77777/SlapperPlus)
-- [SlapperCooldown](https://github.com/jojoe77777/SlapperCooldown)
+- [SlapperRotation](https://github.com/Vecnavium/SlapperRotation)
+- [SlapperCooldown](https://github.com/Vecnavium/SlapperCooldown)
 
 
 
