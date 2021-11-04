@@ -1,5 +1,5 @@
 # Slapper
-<a href="https://discord.gg/n4hANRh"><img src="https://discordapp.com/api/guilds/412491783486832640/embed.png" alt="Discord server"/></a>
+[![Discord](https://img.shields.io/discord/837701868649709568.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/jWFB56RqUN)
 
 The new home of Slapper, the NPC plugin for PocketMine-MP.
 
